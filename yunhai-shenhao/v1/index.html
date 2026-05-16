@@ -1,63 +1,63 @@
+<meta charset="utf-8">
 <section id="yunhai-shenhao-app" class="yh-shell">
   <style>
     :root {
       --yh-bg: #080706;
-      --yh-panel: rgba(22, 18, 13, 0.92);
-      --yh-panel-soft: rgba(41, 32, 22, 0.78);
+      --yh-panel: rgba(19, 16, 12, 0.95);
+      --yh-panel-soft: rgba(39, 31, 22, 0.82);
+      --yh-ink: #f7f1df;
+      --yh-muted: #aa9b82;
+      --yh-dim: #766a58;
       --yh-gold: #d8b35a;
       --yh-gold-soft: #f0d995;
-      --yh-line: rgba(216, 179, 90, 0.34);
-      --yh-text: #f7f1df;
-      --yh-muted: #aa9b82;
-      --yh-risk: #e06b5f;
-      --yh-ok: #65c18c;
-      --yh-shadow: rgba(0, 0, 0, 0.45);
+      --yh-line: rgba(216, 179, 90, 0.32);
+      --yh-line-soft: rgba(216, 179, 90, 0.18);
+      --yh-red: #d96a5f;
+      --yh-green: #65c18c;
+      --yh-blue: #8bb9db;
       color-scheme: dark;
     }
 
     #yunhai-shenhao-app {
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
-      color: var(--yh-text);
-      background:
-        radial-gradient(circle at 15% 0%, rgba(216, 179, 90, 0.18), transparent 32%),
-        linear-gradient(135deg, #050403 0%, #14100b 42%, #050403 100%);
+      color: var(--yh-ink);
+      background: linear-gradient(135deg, #070605 0%, #17120d 54%, #090806 100%);
       border: 1px solid var(--yh-line);
-      box-shadow: 0 18px 48px var(--yh-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       border-radius: 8px;
       overflow: hidden;
-      max-width: 980px;
+      max-width: 1080px;
       margin: 0 auto;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .yh-topbar {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
       align-items: center;
       padding: 18px 20px;
       border-bottom: 1px solid var(--yh-line);
-      background: rgba(0, 0, 0, 0.28);
+      background: rgba(0, 0, 0, 0.32);
     }
 
     .yh-title {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
       min-width: 0;
     }
 
     .yh-title strong {
+      display: block;
+      color: var(--yh-gold-soft);
       font-size: 22px;
       font-weight: 700;
       letter-spacing: 0;
-      color: var(--yh-gold-soft);
+      line-height: 1.25;
     }
 
     .yh-title span,
     .yh-clock {
       color: var(--yh-muted);
       font-size: 13px;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .yh-clock {
@@ -65,11 +65,45 @@
       white-space: nowrap;
     }
 
-    .yh-grid {
+    .yh-strip {
       display: grid;
-      grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px;
+      border-bottom: 1px solid var(--yh-line-soft);
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .yh-metric {
+      min-height: 70px;
+      background: var(--yh-panel-soft);
+      border: 1px solid var(--yh-line-soft);
+      border-radius: 7px;
+      padding: 10px;
+      min-width: 0;
+    }
+
+    .yh-metric span {
+      display: block;
+      color: var(--yh-muted);
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .yh-metric strong {
+      display: block;
+      color: var(--yh-ink);
+      font-size: 17px;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .yh-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.52fr) minmax(310px, 0.78fr);
       gap: 14px;
       padding: 14px;
+      align-items: start;
     }
 
     .yh-panel {
@@ -88,47 +122,227 @@
       letter-spacing: 0;
     }
 
-    .yh-metrics {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
+    .yh-panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
     }
 
-    .yh-metric {
-      min-height: 74px;
-      background: var(--yh-panel-soft);
-      border: 1px solid rgba(216, 179, 90, 0.22);
-      border-radius: 6px;
-      padding: 10px;
+    .yh-panel-head h3 {
+      margin: 0;
     }
 
-    .yh-metric span {
-      display: block;
+    .yh-panel-head span {
       color: var(--yh-muted);
       font-size: 12px;
-      margin-bottom: 8px;
+      white-space: nowrap;
     }
 
-    .yh-metric strong {
-      display: block;
-      font-size: 18px;
-      line-height: 1.25;
+    .yh-profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .yh-profile-card {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 12px;
+      background: rgba(8, 7, 5, 0.58);
+      border: 1px solid rgba(216, 179, 90, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .yh-profile-card.is-focus {
+      border-color: rgba(240, 217, 149, 0.52);
+      background: rgba(35, 27, 18, 0.76);
+    }
+
+    .yh-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 8px;
+      border: 1px solid rgba(240, 217, 149, 0.42);
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(145deg, rgba(216, 179, 90, 0.28), rgba(0, 0, 0, 0.2)),
+        #15100b;
+      color: var(--yh-gold-soft);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .yh-profile-main {
+      min-width: 0;
+    }
+
+    .yh-profile-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .yh-profile-title strong {
+      color: var(--yh-gold-soft);
+      font-size: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .yh-stage {
+      border: 1px solid rgba(216, 179, 90, 0.28);
+      border-radius: 99px;
+      color: var(--yh-gold-soft);
+      font-size: 12px;
+      padding: 3px 7px;
+      white-space: nowrap;
+      background: rgba(216, 179, 90, 0.08);
+    }
+
+    .yh-identity,
+    .yh-attitude,
+    .yh-last {
+      color: var(--yh-muted);
+      font-size: 12px;
+      line-height: 1.45;
       overflow-wrap: anywhere;
     }
 
-    .yh-map {
+    .yh-attitude {
+      color: var(--yh-ink);
+      margin-top: 7px;
+    }
+
+    .yh-bars {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin: 10px 0;
+    }
+
+    .yh-bar-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) 34px;
+      gap: 7px;
+      align-items: center;
+      color: var(--yh-muted);
+      font-size: 12px;
+    }
+
+    .yh-bar {
+      height: 7px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .yh-bar i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #8c6a2c, var(--yh-gold-soft));
+    }
+
+    .yh-bar.trust i {
+      background: linear-gradient(90deg, #436c72, var(--yh-blue));
+    }
+
+    .yh-bar.alert i {
+      background: linear-gradient(90deg, #6d2f2c, var(--yh-red));
+    }
+
+    .yh-resources,
+    .yh-actions,
+    .yh-tags,
+    .yh-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .yh-chip {
+      border: 1px solid rgba(216, 179, 90, 0.22);
+      border-radius: 99px;
+      padding: 4px 8px;
+      color: var(--yh-muted);
+      font-size: 12px;
+      line-height: 1.3;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .yh-actions {
+      margin-top: 10px;
+    }
+
+    .yh-action-btn,
+    .yh-option {
+      border: 1px solid rgba(216, 179, 90, 0.28);
+      border-radius: 7px;
+      color: var(--yh-ink);
+      background: rgba(216, 179, 90, 0.09);
+      font: inherit;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .yh-action-btn {
+      padding: 7px 9px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .yh-option {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px;
+    }
+
+    .yh-action-btn:hover,
+    .yh-option:hover {
+      background: rgba(216, 179, 90, 0.16);
+      border-color: rgba(240, 217, 149, 0.54);
+    }
+
+    .yh-side {
+      display: grid;
+      gap: 14px;
+    }
+
+    .yh-story {
+      line-height: 1.72;
+      font-size: 14px;
+      color: var(--yh-ink);
+      max-height: 270px;
+      overflow: auto;
+      overflow-wrap: anywhere;
+    }
+
+    .yh-options {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .yh-world {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
 
     .yh-lineitem {
-      border-top: 1px solid rgba(216, 179, 90, 0.16);
+      border-top: 1px solid rgba(216, 179, 90, 0.14);
       padding-top: 10px;
       margin-top: 10px;
-      color: var(--yh-text);
+      color: var(--yh-ink);
       font-size: 13px;
       line-height: 1.55;
+      overflow-wrap: anywhere;
     }
 
     .yh-lineitem:first-child {
@@ -141,105 +355,17 @@
       color: var(--yh-muted);
     }
 
-    .yh-harem {
+    .yh-support {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .yh-card {
-      background: rgba(7, 6, 5, 0.56);
-      border: 1px solid rgba(216, 179, 90, 0.2);
-      border-radius: 7px;
-      padding: 10px;
-      min-width: 0;
-    }
-
-    .yh-card strong {
-      color: var(--yh-gold-soft);
-      font-size: 14px;
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .yh-card small {
-      color: var(--yh-muted);
-      display: block;
-      margin: 4px 0 9px;
-      min-height: 18px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .yh-bar {
-      height: 7px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 99px;
-      overflow: hidden;
-      margin: 6px 0;
-    }
-
-    .yh-bar i {
-      display: block;
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #8c6a2c, var(--yh-gold-soft));
-    }
-
-    .yh-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .yh-tag {
-      border: 1px solid rgba(216, 179, 90, 0.24);
-      border-radius: 99px;
-      padding: 4px 8px;
-      color: var(--yh-muted);
-      font-size: 12px;
-      line-height: 1.3;
-      background: rgba(0, 0, 0, 0.18);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+      padding: 0 14px 14px;
     }
 
     .yh-feed {
-      max-height: 190px;
+      max-height: 180px;
       overflow: auto;
       padding-right: 4px;
-    }
-
-    .yh-options {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .yh-option {
-      background: rgba(216, 179, 90, 0.09);
-      border: 1px solid rgba(216, 179, 90, 0.28);
-      color: var(--yh-text);
-      border-radius: 6px;
-      padding: 10px;
-      text-align: left;
-      font: inherit;
-      cursor: pointer;
-      min-height: 46px;
-    }
-
-    .yh-option:hover {
-      background: rgba(216, 179, 90, 0.16);
-      border-color: rgba(240, 217, 149, 0.54);
-    }
-
-    .yh-story {
-      line-height: 1.72;
-      font-size: 14px;
-      color: var(--yh-text);
-      max-height: 260px;
-      overflow: auto;
     }
 
     .yh-fallback {
@@ -248,19 +374,47 @@
       font-size: 14px;
     }
 
-    @media (max-width: 820px) {
-      .yh-grid,
-      .yh-map {
+    .yh-toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      background: rgba(15, 12, 9, 0.96);
+      border: 1px solid rgba(240, 217, 149, 0.45);
+      border-radius: 7px;
+      color: var(--yh-gold-soft);
+      padding: 9px 12px;
+      font-size: 13px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 160ms ease, transform 160ms ease;
+      pointer-events: none;
+    }
+
+    .yh-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .yh-layout,
+      .yh-support {
         grid-template-columns: 1fr;
       }
 
-      .yh-metrics,
-      .yh-harem,
-      .yh-options {
+      .yh-profile-grid,
+      .yh-strip {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+    }
 
-      .yh-topbar {
+    @media (max-width: 560px) {
+      .yh-topbar,
+      .yh-profile-card,
+      .yh-profile-grid,
+      .yh-strip,
+      .yh-world {
         grid-template-columns: 1fr;
       }
 
@@ -268,13 +422,9 @@
         text-align: left;
         white-space: normal;
       }
-    }
 
-    @media (max-width: 520px) {
-      .yh-metrics,
-      .yh-harem,
-      .yh-options {
-        grid-template-columns: 1fr;
+      .yh-profile-card {
+        gap: 10px;
       }
     }
   </style>
@@ -282,51 +432,56 @@
   <div class="yh-topbar">
     <div class="yh-title">
       <strong>云海神豪系统</strong>
-      <span id="yh-subtitle">黑金名利场 · 资产与关系闭环</span>
+      <span id="yh-subtitle">黑金名利场 · 关系资源与商业版图</span>
     </div>
     <div class="yh-clock" id="yh-clock">读取世界状态中...</div>
   </div>
 
-  <div class="yh-grid">
+  <div class="yh-strip">
+    <div class="yh-metric"><span>现金</span><strong id="yh-cash">--</strong></div>
+    <div class="yh-metric"><span>总资产</span><strong id="yh-assets">--</strong></div>
+    <div class="yh-metric"><span>声望</span><strong id="yh-reputation">--</strong></div>
+    <div class="yh-metric"><span>风险</span><strong id="yh-risk">--</strong></div>
+  </div>
+
+  <div class="yh-layout">
     <div class="yh-panel">
-      <h3>资产仪表盘</h3>
-      <div class="yh-metrics">
-        <div class="yh-metric"><span>现金</span><strong id="yh-cash">--</strong></div>
-        <div class="yh-metric"><span>总资产</span><strong id="yh-assets">--</strong></div>
-        <div class="yh-metric"><span>声望</span><strong id="yh-reputation">--</strong></div>
-        <div class="yh-metric"><span>风险</span><strong id="yh-risk">--</strong></div>
+      <div class="yh-panel-head">
+        <h3>女主关系档案</h3>
+        <span id="yh-focus">五条关系线待推进</span>
       </div>
-      <div class="yh-lineitem" id="yh-action">当前行动：等待剧情推进</div>
+      <div class="yh-profile-grid" id="yh-profiles"></div>
     </div>
 
-    <div class="yh-panel">
-      <h3>城市与行程</h3>
-      <div class="yh-map">
-        <div class="yh-lineitem"><span class="yh-muted">地点</span><br><span id="yh-location">--</span></div>
-        <div class="yh-lineitem"><span class="yh-muted">天气</span><br><span id="yh-weather">--</span></div>
+    <div class="yh-side">
+      <div class="yh-panel">
+        <h3>本轮剧情</h3>
+        <div class="yh-story" id="yh-story">
+          <p class="yh-fallback">夜色落在云海市，系统正在同步最新一轮剧情。</p>
+        </div>
       </div>
-      <div class="yh-lineitem"><span class="yh-muted">主线</span><br><span id="yh-mainline">--</span></div>
+
+      <div class="yh-panel">
+        <h3>行动选项</h3>
+        <div class="yh-options" id="yh-options"></div>
+      </div>
+
+      <div class="yh-panel">
+        <h3>城市与行程</h3>
+        <div class="yh-world">
+          <div class="yh-lineitem"><span class="yh-muted">地点</span><br><span id="yh-location">云海市</span></div>
+          <div class="yh-lineitem"><span class="yh-muted">天气</span><br><span id="yh-weather">微雨</span></div>
+        </div>
+        <div class="yh-lineitem"><span class="yh-muted">主线</span><br><span id="yh-mainline">黑金名利场开局</span></div>
+        <div class="yh-lineitem" id="yh-action">当前行动：等待玩家选择</div>
+      </div>
     </div>
   </div>
 
-  <div class="yh-grid">
+  <div class="yh-support">
     <div class="yh-panel">
-      <h3>本轮剧情</h3>
-      <div class="yh-story" id="yh-story">
-        <p class="yh-fallback">若你看到这段文字，说明外链前端已载入，正在等待从最后一条消息读取剧情与变量。</p>
-      </div>
-    </div>
-
-    <div class="yh-panel">
-      <h3>行动选项</h3>
-      <div class="yh-options" id="yh-options"></div>
-    </div>
-  </div>
-
-  <div class="yh-grid">
-    <div class="yh-panel">
-      <h3>女主关系</h3>
-      <div class="yh-harem" id="yh-harem"></div>
+      <h3>产业版图</h3>
+      <div class="yh-tags" id="yh-industries"></div>
     </div>
 
     <div class="yh-panel">
@@ -335,38 +490,185 @@
     </div>
   </div>
 
-  <div class="yh-panel" style="margin: 0 14px 14px;">
-    <h3>产业版图</h3>
-    <div class="yh-tags" id="yh-industries"></div>
-  </div>
+  <div class="yh-toast" id="yh-toast"></div>
 
   <script>
     (() => {
       const $root = document.getElementById('yunhai-shenhao-app');
+      const HEROINE_BASE = [
+        {
+          name: '沈清璃',
+          identity: '投行合伙人',
+          stage: '审视中的商业对象',
+          attitude: '冷静评估你的履约能力',
+          like: 0,
+          trust: 0,
+          alert: 35,
+          resources: ['投行资源', '并购渠道', '财务尽调'],
+          event: '濒危酒店并购线',
+          actions: [
+            '约沈清璃会面，讨论濒危酒店的并购方案。',
+            '请沈清璃评估当前资产风险，并给出财务尽调清单。',
+            '调用沈清璃的投行渠道，寻找一笔可控的收购标的。'
+          ]
+        },
+        {
+          name: '顾晚音',
+          identity: '豪门继承人',
+          stage: '传闻中的竞争者',
+          attitude: '以旧钱阶层的标准观察你',
+          like: 0,
+          trust: -5,
+          alert: 45,
+          resources: ['豪门网络', '商会门票', '竞价情报'],
+          event: '云海商会入场线',
+          actions: [
+            '邀请顾晚音参加一场私人晚宴，试探她对合作的真实态度。',
+            '推进顾晚音的商会事件，争取一张高端圈层入场券。',
+            '调用顾晚音的竞价情报，判断下一次拍卖是否值得出手。'
+          ]
+        },
+        {
+          name: '林知夏',
+          identity: '私人生活助理候选人',
+          stage: '等待面试',
+          attitude: '谨慎期待一份被尊重的机会',
+          like: 5,
+          trust: 5,
+          alert: 15,
+          resources: ['行程管理', '私人助理', '生活与效率增益'],
+          event: '私人团队组建线',
+          actions: [
+            '安排林知夏进行助理面试，明确职责、薪酬与边界。',
+            '请林知夏整理今日行程，优化商业会面顺序。',
+            '推进林知夏的成长事件，给她一次独立处理事务的机会。'
+          ]
+        },
+        {
+          name: '苏曼青',
+          identity: '顶流演员',
+          stage: '镜头之外的陌生人',
+          attitude: '警惕资本靠近她的真实生活',
+          like: 0,
+          trust: 0,
+          alert: 30,
+          resources: ['传媒曝光', '品牌代言', '舆论反制'],
+          event: '娱乐舆论危机线',
+          actions: [
+            '联系苏曼青的经纪团队，提出一次不越界的合作会面。',
+            '推进苏曼青的舆论事件，查清热搜背后的资本推手。',
+            '调用苏曼青的传媒资源，为新产业设计一次品牌曝光。'
+          ]
+        },
+        {
+          name: '许明月',
+          identity: '精英律师',
+          stage: '专业距离',
+          attitude: '只相信证据、合同和可验证承诺',
+          like: 0,
+          trust: 0,
+          alert: 30,
+          resources: ['法律风控', '合同审查', '危机处理'],
+          event: '法务风控护城河',
+          actions: [
+            '约许明月审查收购合同，主动暴露潜在风险。',
+            '推进许明月的危机处理事件，调查对手的合同漏洞。',
+            '调用许明月的法律风控能力，为当前产业建立合规方案。'
+          ]
+        }
+      ];
+
       const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value || 0)));
+      const relationPercent = value => clamp((Number(value || 0) + 100) / 2, 0, 100);
+      const eventPercent = value => clamp(Number(value || 0), 0, 100);
       const fmtMoney = value => {
         const n = Number(value || 0);
         if (n >= 100000000) return `¥${(n / 100000000).toFixed(2)}亿`;
         if (n >= 10000) return `¥${(n / 10000).toFixed(1)}万`;
         return `¥${n.toLocaleString('zh-CN')}`;
       };
-      const safeText = value => String(value ?? '').replace(/[<>&]/g, s => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[s]));
-      const lastMes = () => document.querySelector('#chat .mes.last_mes') || $root.closest('.mes') || document.body;
+      const safeText = value => String(value ?? '').replace(/[<>&"]/g, s => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[s]));
+      const normalizeText = value => String(value ?? '').replace(/<condition>[\s\S]*?<\/condition>/gi, '').replace(/^[a-d]\.\s*/i, '').replace(/\s+/g, ' ').trim();
+      const firstChar = value => String(value || '云').trim().slice(0, 1);
+
+      const getDoc = () => {
+        try {
+          if (window.parent && window.parent !== window && window.parent.document) return window.parent.document;
+        } catch (error) {}
+        return document;
+      };
+
+      const showToast = text => {
+        const toast = document.getElementById('yh-toast');
+        if (!toast) return;
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => toast.classList.remove('show'), 1800);
+      };
+
+      const setStInput = text => {
+        const doc = getDoc();
+        const selectors = [
+          '#send_textarea',
+          'textarea[name="send_textarea"]',
+          '#chat_textarea',
+          'textarea[placeholder]',
+          'textarea'
+        ];
+        const input = selectors.map(selector => doc.querySelector(selector)).find(Boolean);
+        if (!input) return false;
+        input.focus();
+        input.value = text;
+        input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: text }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        return true;
+      };
+
+      const clickStSend = () => {
+        const doc = getDoc();
+        const selectors = [
+          '#send_but',
+          '#send_button',
+          '.send_button',
+          'button[title*="Send"]',
+          'button[aria-label*="Send"]',
+          'button[title*="发送"]',
+          'button[aria-label*="发送"]'
+        ];
+        const button = selectors.map(selector => doc.querySelector(selector)).find(el => el && !el.disabled);
+        if (!button) return false;
+        button.click();
+        return true;
+      };
+
+      const sendAction = text => {
+        const clean = normalizeText(text);
+        if (!clean) return;
+        const filled = setStInput(clean);
+        if (filled && clickStSend()) {
+          showToast('已发送行动');
+          return;
+        }
+        if (filled) {
+          showToast('已填入输入框，请手动发送');
+          return;
+        }
+        showToast('未找到输入框，请手动输入该行动');
+      };
+
       const decodeHtml = html => {
         const textarea = document.createElement('textarea');
         textarea.innerHTML = html;
         return textarea.value;
       };
+
+      const lastMes = () => document.querySelector('#chat .mes.last_mes') || $root.closest('.mes') || document.body;
       const rawMessage = () => {
         const hiddenRaw = document.querySelector('#yh-raw-message');
         if (hiddenRaw) {
-          if (hiddenRaw.tagName === 'TEXTAREA') {
-            return hiddenRaw.value || hiddenRaw.textContent || '';
-          }
-          if (hiddenRaw.tagName === 'TEMPLATE') {
-            const html = hiddenRaw.innerHTML || hiddenRaw.content?.textContent || '';
-            return decodeHtml(html);
-          }
+          if (hiddenRaw.tagName === 'TEXTAREA') return hiddenRaw.value || hiddenRaw.textContent || '';
+          if (hiddenRaw.tagName === 'TEMPLATE') return decodeHtml(hiddenRaw.innerHTML || hiddenRaw.content?.textContent || '');
           return decodeHtml(hiddenRaw.innerHTML || hiddenRaw.textContent || '');
         }
         const node = lastMes();
@@ -374,14 +676,16 @@
         clone.querySelectorAll('#yunhai-shenhao-app, style, script').forEach(el => el.remove());
         return decodeHtml(clone.innerHTML || clone.textContent || '');
       };
+
       const tag = (name, source) => {
-        const normalized = source
+        const normalized = String(source || '')
           .replace(/&lt;/g, '<')
           .replace(/&gt;/g, '>')
           .replace(/&amp;/g, '&');
         const match = normalized.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`, 'i'));
         return match ? match[1].trim() : '';
       };
+
       const parseOptions = source => {
         const body = tag('option', source);
         return body
@@ -393,28 +697,99 @@
             const conditionMatch = raw.match(/<condition>([\s\S]*?)<\/condition>/i);
             return {
               raw,
-              label: raw.replace(/<condition>[\s\S]*?<\/condition>/gi, '').replace(/\s+/g, ' ').trim(),
-              condition: conditionMatch ? conditionMatch[1].trim() : '',
+              label: normalizeText(raw),
+              condition: conditionMatch ? conditionMatch[1].trim() : ''
             };
           })
           .slice(0, 4);
       };
+
       const readStatData = () => {
+        const parentWindow = (() => {
+          try {
+            return window.parent && window.parent !== window ? window.parent : null;
+          } catch (error) {
+            return null;
+          }
+        })();
         const candidates = [
           window.stat_data,
           window.yunhaiStatData,
           window.__YUNHAI_STAT_DATA__,
           window.TavernHelper?.variables?.stat_data,
+          parentWindow?.stat_data,
+          parentWindow?.yunhaiStatData,
+          parentWindow?.__YUNHAI_STAT_DATA__,
+          parentWindow?.TavernHelper?.variables?.stat_data
         ];
         return candidates.find(x => x && typeof x === 'object') || {};
       };
+
+      const recentText = value => {
+        if (Array.isArray(value)) return value.length ? value[value.length - 1] : '尚未留下关键互动';
+        return value || '尚未留下关键互动';
+      };
+
+      const mergedProfiles = relations => HEROINE_BASE.map((base, index) => {
+        const record = relations?.[base.name] || {};
+        return {
+          ...base,
+          index,
+          identity: record.身份 || base.identity,
+          stage: record.关系阶段 || base.stage,
+          like: Number(record.好感 ?? base.like),
+          trust: Number(record.信任 ?? base.trust),
+          alert: Number(record.警惕 ?? base.alert),
+          attitude: record.当前态度 || base.attitude,
+          last: recentText(record.最近互动),
+          progress: record.专属事件进度 ?? 0
+        };
+      });
+
+      const renderProfiles = relations => {
+        const profiles = mergedProfiles(relations);
+        const activeCount = profiles.filter(p => {
+          const record = relations?.[p.name];
+          return record && (Number(record.好感 ?? 0) !== 0 || Number(record.信任 ?? 0) !== 0 || Number(record.专属事件进度 ?? 0) > 0 || Boolean(record.最近互动?.length));
+        }).length;
+        document.getElementById('yh-focus').textContent = activeCount ? `${activeCount} 条关系线已有变化` : '五条关系线待推进';
+        document.getElementById('yh-profiles').innerHTML = profiles.map(profile => {
+          const resources = profile.resources.map(item => `<span class="yh-chip">${safeText(item)}</span>`).join('');
+          const actions = profile.actions.map(action => `<button class="yh-action-btn" data-action="${safeText(action)}">${safeText(action.replace(/，[\s\S]*$/, ''))}</button>`).join('');
+          const focus = profile.progress > 0 || profile.like > 20 || profile.trust > 20 ? ' is-focus' : '';
+          return `<article class="yh-profile-card${focus}">
+            <div class="yh-avatar">${safeText(firstChar(profile.name))}</div>
+            <div class="yh-profile-main">
+              <div class="yh-profile-title">
+                <strong>${safeText(profile.name)}</strong>
+                <span class="yh-stage">${safeText(profile.stage)}</span>
+              </div>
+              <div class="yh-identity">${safeText(profile.identity)} · ${safeText(profile.event)}</div>
+              <div class="yh-bars">
+                <div class="yh-bar-row"><span>好感</span><div class="yh-bar"><i style="width:${relationPercent(profile.like)}%"></i></div><span>${safeText(profile.like)}</span></div>
+                <div class="yh-bar-row"><span>信任</span><div class="yh-bar trust"><i style="width:${relationPercent(profile.trust)}%"></i></div><span>${safeText(profile.trust)}</span></div>
+                <div class="yh-bar-row"><span>警惕</span><div class="yh-bar alert"><i style="width:${relationPercent(profile.alert)}%"></i></div><span>${safeText(profile.alert)}</span></div>
+                <div class="yh-bar-row"><span>事件</span><div class="yh-bar"><i style="width:${eventPercent(profile.progress)}%"></i></div><span>${safeText(profile.progress)}%</span></div>
+              </div>
+              <div class="yh-attitude">当前态度：${safeText(profile.attitude)}</div>
+              <div class="yh-last">最近互动：${safeText(profile.last)}</div>
+              <div class="yh-resources">${resources}</div>
+              <div class="yh-actions">${actions}</div>
+            </div>
+          </article>`;
+        }).join('');
+
+        document.querySelectorAll('.yh-action-btn').forEach(btn => {
+          btn.addEventListener('click', () => sendAction(btn.dataset.action || btn.textContent));
+        });
+      };
+
       const render = () => {
         const data = readStatData();
         const world = data.世界信息 || {};
         const actor = data.主角信息 || {};
         const assets = data.资产信息 || {};
         const action = data.角色行动 || {};
-        const ability = data.能力信息 || {};
         const relations = data.女主关系 || {};
         const industries = data.产业信息 || {};
         const events = Array.isArray(data.事件日志) ? data.事件日志 : [];
@@ -422,59 +797,47 @@
         const story = tag('maintext', raw) || tag('sum', raw) || '';
         const options = parseOptions(raw);
 
-        document.getElementById('yh-clock').textContent = `${world.当前日期 || '云海纪元'} · ${world.当前时间 || '未知时间'}`;
+        document.getElementById('yh-clock').textContent = `${world.当前日期 || '2026-05-16'} · ${world.当前时间 || '20:00'}`;
         document.getElementById('yh-cash').textContent = fmtMoney(assets.现金 ?? actor.现金);
         document.getElementById('yh-assets').textContent = fmtMoney(assets.总资产);
         document.getElementById('yh-reputation').textContent = `${clamp(actor.声望, 0, 100)} / 100`;
         document.getElementById('yh-risk').textContent = `${clamp(actor.风险值, 0, 100)} / 100`;
-        document.getElementById('yh-location').textContent = action.当前位置 || world.当前地点 || '云海市';
-        document.getElementById('yh-weather').textContent = world.天气 || '晴';
+        document.getElementById('yh-location').textContent = action.当前位置 || world.当前地点 || '云海市CBD';
+        document.getElementById('yh-weather').textContent = world.天气 || '微雨';
         document.getElementById('yh-mainline').textContent = world.当前主线 || '黑金名利场开局';
         document.getElementById('yh-action').textContent = `当前行动：${action.当前行为 || '等待玩家选择'}｜目标：${action.当前目标 || '建立第一块商业版图'}`;
+
         document.getElementById('yh-story').innerHTML = story
           ? safeText(story).replace(/\n/g, '<br>')
-          : '<p class="yh-fallback">未检测到 &lt;maintext&gt;。如果这是首轮或外链刚载入，可以继续发送“开始游戏”。</p>';
+          : '<p class="yh-fallback">云海的夜场已经开灯，下一次行动会把剧情写入这里。</p>';
 
         document.getElementById('yh-options').innerHTML = options.length
-          ? options.map(opt => `<button class="yh-option" data-option="${safeText(opt.raw)}">${safeText(opt.label)}</button>`).join('')
-          : '<div class="yh-fallback">未检测到 &lt;option&gt;。保底可输入：查看资产、参加晚宴、约见沈清璃、休息。</div>';
+          ? options.map(opt => {
+            const badge = opt.condition ? `<span class="yh-chip">${safeText(opt.condition)}</span>` : '';
+            return `<button class="yh-option" data-action="${safeText(opt.label)}">${badge}${safeText(opt.label)}</button>`;
+          }).join('')
+          : '<button class="yh-option" data-action="查看云海神豪系统的资产、女主关系和当前可行动线。">查看当前局势</button>';
 
         document.querySelectorAll('.yh-option').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const input = document.querySelector('#send_textarea, textarea[name="send_textarea"], textarea');
-            if (input) {
-              input.value = btn.dataset.option || btn.textContent;
-              input.dispatchEvent(new Event('input', { bubbles: true }));
-            }
-          });
+          btn.addEventListener('click', () => sendAction(btn.dataset.action || btn.textContent));
         });
 
-        const relationEntries = Object.entries(relations).slice(0, 5);
-        document.getElementById('yh-harem').innerHTML = relationEntries.length
-          ? relationEntries.map(([name, r]) => {
-            const like = clamp((Number(r.好感 || 0) + 100) / 2, 0, 100);
-            const trust = clamp((Number(r.信任 || 0) + 100) / 2, 0, 100);
-            return `<div class="yh-card">
-              <strong>${safeText(name)}</strong>
-              <small>${safeText(r.关系阶段 || r.身份 || '未建立关系')}</small>
-              <div class="yh-muted">好感</div><div class="yh-bar"><i style="width:${like}%"></i></div>
-              <div class="yh-muted">信任</div><div class="yh-bar"><i style="width:${trust}%"></i></div>
-            </div>`;
-          }).join('')
-          : '<div class="yh-fallback">女主关系尚未初始化。</div>';
+        renderProfiles(relations);
 
         const industryEntries = Object.entries(industries);
         document.getElementById('yh-industries').innerHTML = industryEntries.length
-          ? industryEntries.map(([name, item]) => `<span class="yh-tag">${safeText(name)} · Lv.${safeText(item.等级 ?? 0)} · ${safeText(item.状态 || '筹备')}</span>`).join('')
-          : '<span class="yh-tag">暂无产业</span>';
+          ? industryEntries.map(([name, item]) => `<span class="yh-chip">${safeText(name)} · Lv.${safeText(item.等级 ?? 0)} · ${safeText(item.状态 || '筹备')}</span>`).join('')
+          : '<span class="yh-chip">云海之巅酒店收购线</span><span class="yh-chip">私人团队筹建</span><span class="yh-chip">商会入场资格</span>';
 
         document.getElementById('yh-events').innerHTML = events.length
           ? events.slice(-8).reverse().map(e => `<div class="yh-lineitem">${safeText(typeof e === 'string' ? e : `${e.时间 || ''} ${e.内容 || e.事件 || ''}`)}</div>`).join('')
-          : '<div class="yh-fallback">暂无事件日志。</div>';
+          : '<div class="yh-fallback">第一条可记录事件，通常来自晚宴、收购、面试或危机处理。</div>';
       };
+
       render();
       setTimeout(render, 500);
       setTimeout(render, 1500);
+      window.yunhaiSendAction = sendAction;
     })();
   </script>
 </section>

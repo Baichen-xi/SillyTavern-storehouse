@@ -61,7 +61,7 @@
           "runOnEdit": true,
           "findRegex": "/([\\s\\S]+)/",
           "trimStrings": [],
-          "replaceString": "```html\n<body>\n<textarea id=\"yh-raw-message\" style=\"display:none\">$1</textarea>\n<div id=\"yh-loader\" style=\"padding:12px;border:1px solid #8c6a2c;border-radius:8px;color:#f0d995;background:#14100b;line-height:1.6;font-family:Microsoft YaHei, sans-serif\">云海神豪前端加载中……</div>\n<script>\n(async () => {\n  const url = 'https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-shenhao/v1/index.html?v=20260516-7';\n  const loader = document.getElementById('yh-loader');\n  try {\n    const response = await fetch(url, { cache: 'no-store' });\n    if (!response.ok) throw new Error('HTTP ' + response.status);\n    const html = await response.text();\n    loader.innerHTML = html;\n    loader.querySelectorAll('script').forEach(oldScript => {\n      const script = document.createElement('script');\n      for (const attr of oldScript.attributes) script.setAttribute(attr.name, attr.value);\n      script.textContent = oldScript.textContent;\n      oldScript.replaceWith(script);\n    });\n  } catch (error) {\n    const raw = document.getElementById('yh-raw-message').value || '';\n    loader.innerHTML = '<b>云海神豪前端加载失败</b><br><small>' + String(error && error.message || error) + '</small><details style=\"margin-top:8px\"><summary>显示文本模式备份</summary><pre style=\"white-space:pre-wrap;color:#f7f1df\">' + raw.replace(/[<>&]/g, s => ({\"<\":\"&lt;\", \">\":\"&gt;\", \"&\":\"&amp;\"}[s])) + '</pre></details>';\n  }\n})();\n</script>\n</body>\n```",
+          "replaceString": "```html\n<body>\n<textarea id=\"yh-raw-message\" style=\"display:none\">$1</textarea>\n<div id=\"yh-loader\" style=\"padding:12px;border:1px solid #8c6a2c;border-radius:8px;color:#f0d995;background:#14100b;line-height:1.6;font-family:Microsoft YaHei, sans-serif\">云海神豪前端加载中……</div>\n<script>\n(async () => {\n  const url = 'https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-shenhao/v1/index.html?v=20260516-8';\n  const loader = document.getElementById('yh-loader');\n  try {\n    const response = await fetch(url, { cache: 'no-store' });\n    if (!response.ok) throw new Error('HTTP ' + response.status);\n    const html = await response.text();\n    loader.innerHTML = html;\n    loader.querySelectorAll('script').forEach(oldScript => {\n      const script = document.createElement('script');\n      for (const attr of oldScript.attributes) script.setAttribute(attr.name, attr.value);\n      script.textContent = oldScript.textContent;\n      oldScript.replaceWith(script);\n    });\n  } catch (error) {\n    const raw = document.getElementById('yh-raw-message').value || '';\n    loader.innerHTML = '<b>云海神豪前端加载失败</b><br><small>' + String(error && error.message || error) + '</small><details style=\"margin-top:8px\"><summary>显示文本模式备份</summary><pre style=\"white-space:pre-wrap;color:#f7f1df\">' + raw.replace(/[<>&]/g, s => ({\"<\":\"&lt;\", \">\":\"&gt;\", \"&\":\"&amp;\"}[s])) + '</pre></details>';\n  }\n})();\n</script>\n</body>\n```",
           "placement": [
             1,
             2
@@ -164,7 +164,7 @@
             "enabled": true,
             "name": "ZOD 变量结构脚本",
             "id": "d99000b1-aa47-4d01-b532-b9562b8d3405",
-            "content": "import 'https://cdn.jsdelivr.net/gh/Baichen-xi/SillyTavern-storehouse@main/yunhai-shenhao/v1/schema.js?v=20260516-3'",
+            "content": "import 'https://cdn.jsdelivr.net/gh/Baichen-xi/SillyTavern-storehouse@main/yunhai-shenhao/v1/schema.js?v=20260516-4'",
             "info": "注册云海神豪卡的变量结构、默认值、数值钳制和日志裁剪规则。",
             "button": {
               "enabled": true,
@@ -384,7 +384,7 @@
           ],
           "secondary_keys": [],
           "comment": "[characters]五位女主",
-          "content": "五位女主均为成年人，拥有独立职业、判断和边界。\n\n沈清璃，28岁，投行合伙人。冷静、克制、重视履约和判断力。关系玩法：商业博弈、并肩收购、从审视到信任。\n顾晚音，25岁，豪门继承人。骄傲、敏锐、习惯掌控局面。关系玩法：竞争转合作，旧豪门与新资本的互相试探。\n林知夏，23岁，私人生活助理候选人。细心、执行力强，渴望被看见。关系玩法：陪伴成长、日程管理、生活细节中的依赖。\n苏曼青，26岁，顶流演员。明艳、疲惫、擅长镜头前表演，讨厌被资本物化。关系玩法：娱乐圈资源、舆论危机、真实自我。\n许明月，29岁，精英律师。理性、边界清楚、对风险极度敏感。关系玩法：契约、秘密、危机处理中的信任建立。\n\n关系推进必须尊重同意和边界。好感不等于服从，信任不等于暧昧。每位女主都应保留自己的目标和主动性。",
+          "content": "五位女主均为成年人，拥有独立职业、判断、边界和主动目标。她们不是奖励道具，而是会用自己的职业资源、情绪判断和利益诉求影响商业主线的人物。\n\n沈清璃，28岁，投行合伙人。冷静、克制、重视履约和数据。她的专属资源是投行资源、并购渠道、财务尽调。推进方式：用真实项目证明主角不是只会砸钱的人，例如濒危酒店收购、债务重组、融资谈判。边界：讨厌空头承诺和情绪绑架；关系升温必须来自守约、专业判断和关键时刻的互相托底。事件入口：云海之巅酒店并购线、金融晚宴、并购对赌。\n\n顾晚音，25岁，豪门继承人。骄傲、敏锐，熟悉旧钱阶层的礼仪和权力暗语。她的专属资源是豪门网络、商会门票、竞价情报。推进方式：从竞争、试探到有限合作，让主角进入商会、拍卖会、家族项目。边界：不能把她写成轻易被金钱打动；她更看重尊重、格局和能否承担后果。事件入口：云海商会入场线、慈善拍卖、家族竞标。\n\n林知夏，23岁，私人生活助理候选人。细心、执行力强，渴望一份被认真看见的职业机会。她的专属资源是行程管理、私人助理、生活与效率增益。推进方式：从面试、试用到成为主角私人团队核心，让她通过细节帮助主角减少失误。边界：必须明确薪酬、职责、休息和尊重，不把职场依赖写成无条件服从。事件入口：私人团队组建线、紧急行程救场、生活危机处理。\n\n苏曼青，26岁，顶流演员。明艳、疲惫，擅长镜头前表演，讨厌被资本物化。她的专属资源是传媒曝光、品牌代言、舆论反制。推进方式：从商业合作或舆论危机切入，让主角帮助她保住真实自我，也借她的曝光能力塑造品牌。边界：她不接受强迫曝光、绯闻操控或把情感当营销工具。事件入口：娱乐舆论危机线、品牌代言谈判、热搜反击。\n\n许明月，29岁，精英律师。理性、边界清楚，对风险极度敏感。她的专属资源是法律风控、合同审查、危机处理。推进方式：让她参与收购合同、合规审查、对手调查和危机公关，逐步从专业合作走向私下信任。边界：不能绕过法律和同意，不能用权势压她做违背职业伦理的事。事件入口：合同漏洞、法务风控护城河、危机谈判。\n\n关系推进规则：\n- 好感代表情绪接近，信任代表愿意交付信息或资源，警惕代表风险感和防备心；三者必须分开变化。\n- 每次与女主产生有效互动时，至少更新该女主的 当前态度、最近互动；如推进专属线，再更新 关系阶段 与 专属事件进度。\n- 最近互动写成一句可读事件，不写代码和内部说明。\n- 好感不等于服从，信任不等于暧昧。每位女主都应保留自己的目标、拒绝权和主动性。",
           "constant": true,
           "selective": true,
           "insertion_order": 80,
@@ -395,6 +395,36 @@
             "position": 4,
             "exclude_recursion": true,
             "display_index": 7,
+            "probability": 100,
+            "useProbability": true,
+            "depth": 4,
+            "role": 0
+          }
+        },
+        {
+          "id": 12,
+          "keys": [
+            "女主档案",
+            "关系档案",
+            "前端",
+            "好感",
+            "信任",
+            "警惕",
+            "专属资源"
+          ],
+          "secondary_keys": [],
+          "comment": "[ui]女主档案前端规则",
+          "content": "【女主档案前端规则】\n前端会把 女主关系 作为主界面核心数据读取，因此模型必须把关系变化写成可维护变量，而不是只写在正文里。\n\n每位女主字段用途：\n- 身份：用于档案副标题，保持职业定位稳定，除非剧情发生重大变化。\n- 关系阶段：用于档案角标，描述当前关系层级，例如“未正式接触”“有限合作”“私下信任”“共同承担危机”。\n- 好感：-100 到 100，表示情绪接近程度；送礼、尊重边界、解决私人困境可提升，冒犯或物化会下降。\n- 信任：-100 到 100，表示愿意交付信息、资源和风险的程度；履约、保密、专业判断可提升，失约或操控会下降。\n- 警惕：-100 到 100，表示防备和风险感；主角越像只会砸钱或控制他人，警惕越高；透明沟通和承担代价可降低。\n- 当前态度：写一句可展示的自然语言，例如“冷静评估你的履约能力”。\n- 最近互动：保留最近互动事件，数组最多 5 条，写可读剧情摘要。\n- 专属事件进度：0 到 100，表示该女主个人线推进程度；每次推进专属事件通常增加 5-20。\n\n当前端行动按钮触发“邀约会面/推进专属事件/调用资源”时：\n- 先写行动发生的过程、代价和阻力，不要直接给满结果。\n- 调用资源必须让对应女主有判断和条件，不能像消耗道具一样无条件成功。\n- 若资源改变商业局势，同步更新 资产信息、产业信息、商业势力、事件日志 中至少一项。\n- 若关系变化，同步更新 女主关系 中对应对象，不要只改主角数值。",
+          "constant": true,
+          "selective": true,
+          "insertion_order": 85,
+          "enabled": true,
+          "position": "after_char",
+          "use_regex": true,
+          "extensions": {
+            "position": 4,
+            "exclude_recursion": true,
+            "display_index": 8,
             "probability": 100,
             "useProbability": true,
             "depth": 4,
@@ -423,7 +453,7 @@
           "extensions": {
             "position": 4,
             "exclude_recursion": true,
-            "display_index": 8,
+            "display_index": 9,
             "probability": 100,
             "useProbability": true,
             "depth": 4,
@@ -452,7 +482,7 @@
           "extensions": {
             "position": 4,
             "exclude_recursion": true,
-            "display_index": 9,
+            "display_index": 10,
             "probability": 100,
             "useProbability": true,
             "depth": 4,
@@ -474,7 +504,7 @@
           "extensions": {
             "position": 4,
             "exclude_recursion": true,
-            "display_index": 10,
+            "display_index": 11,
             "probability": 100,
             "useProbability": true,
             "depth": 4,
@@ -496,7 +526,7 @@
           "extensions": {
             "position": 4,
             "exclude_recursion": true,
-            "display_index": 11,
+            "display_index": 12,
             "probability": 100,
             "useProbability": true,
             "depth": 0,
