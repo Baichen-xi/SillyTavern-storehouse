@@ -360,6 +360,9 @@
       const rawMessage = () => {
         const hiddenRaw = document.querySelector('#yh-raw-message');
         if (hiddenRaw) {
+          if (hiddenRaw.tagName === 'TEXTAREA') {
+            return hiddenRaw.value || hiddenRaw.textContent || '';
+          }
           if (hiddenRaw.tagName === 'TEMPLATE') {
             const html = hiddenRaw.innerHTML || hiddenRaw.content?.textContent || '';
             return decodeHtml(html);
