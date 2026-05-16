@@ -2,61 +2,81 @@
 <section id="yunhai-shenhao-app" class="yh-shell">
   <style>
     :root {
-      --yh-bg: #080706;
-      --yh-panel: rgba(19, 16, 12, 0.95);
-      --yh-panel-soft: rgba(39, 31, 22, 0.82);
-      --yh-ink: #f7f1df;
-      --yh-muted: #aa9b82;
-      --yh-dim: #766a58;
+      --yh-bg: #04070a;
+      --yh-panel: rgba(5, 13, 18, 0.94);
+      --yh-panel-soft: rgba(12, 28, 38, 0.82);
+      --yh-cyan: #56d9ff;
+      --yh-cyan-soft: #b8f0ff;
       --yh-gold: #d8b35a;
       --yh-gold-soft: #f0d995;
-      --yh-line: rgba(216, 179, 90, 0.32);
-      --yh-line-soft: rgba(216, 179, 90, 0.18);
-      --yh-red: #d96a5f;
-      --yh-green: #65c18c;
-      --yh-blue: #8bb9db;
+      --yh-green: #65f0a4;
+      --yh-red: #ff6d63;
+      --yh-ink: #eef9ff;
+      --yh-muted: #8ea9b4;
+      --yh-line: rgba(86, 217, 255, 0.34);
+      --yh-line-soft: rgba(86, 217, 255, 0.16);
       color-scheme: dark;
     }
 
     #yunhai-shenhao-app {
-      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+      position: relative;
+      max-width: 1120px;
+      margin: 0 auto;
+      overflow: hidden;
       color: var(--yh-ink);
-      background: linear-gradient(135deg, #070605 0%, #17120d 54%, #090806 100%);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+      background:
+        linear-gradient(rgba(86, 217, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(86, 217, 255, 0.04) 1px, transparent 1px),
+        radial-gradient(circle at 16% 8%, rgba(86, 217, 255, 0.18), transparent 30%),
+        linear-gradient(135deg, #030507 0%, #071017 48%, #040608 100%);
+      background-size: auto, 28px 28px, auto, auto;
       border: 1px solid var(--yh-line);
       border-radius: 8px;
-      overflow: hidden;
-      max-width: 1080px;
-      margin: 0 auto;
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 56px rgba(0, 0, 0, 0.55), inset 0 0 42px rgba(86, 217, 255, 0.05);
     }
 
-    .yh-topbar {
+    #yunhai-shenhao-app::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 0%, rgba(86, 217, 255, 0.08) 49%, transparent 51%);
+      background-size: 100% 6px;
+      mix-blend-mode: screen;
+      opacity: 0.26;
+    }
+
+    .yh-osbar {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 18px;
+      gap: 16px;
       align-items: center;
-      padding: 18px 20px;
+      padding: 16px 18px;
       border-bottom: 1px solid var(--yh-line);
-      background: rgba(0, 0, 0, 0.32);
+      background: rgba(0, 0, 0, 0.35);
     }
 
-    .yh-title {
+    .yh-brand {
       min-width: 0;
     }
 
-    .yh-title strong {
+    .yh-brand strong {
       display: block;
-      color: var(--yh-gold-soft);
+      color: var(--yh-cyan-soft);
       font-size: 22px;
-      font-weight: 700;
-      letter-spacing: 0;
       line-height: 1.25;
+      font-weight: 800;
+      text-shadow: 0 0 18px rgba(86, 217, 255, 0.42);
     }
 
-    .yh-title span,
-    .yh-clock {
+    .yh-brand span,
+    .yh-clock,
+    .yh-muted {
       color: var(--yh-muted);
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.5;
     }
 
@@ -65,175 +85,169 @@
       white-space: nowrap;
     }
 
-    .yh-strip {
+    .yh-status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 6px;
+      border-radius: 99px;
+      background: var(--yh-green);
+      box-shadow: 0 0 12px var(--yh-green);
+      vertical-align: 0;
+    }
+
+    .yh-terminal {
+      position: relative;
+      z-index: 1;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      padding: 14px;
-      border-bottom: 1px solid var(--yh-line-soft);
-      background: rgba(0, 0, 0, 0.16);
-    }
-
-    .yh-metric {
-      min-height: 70px;
-      background: var(--yh-panel-soft);
-      border: 1px solid var(--yh-line-soft);
-      border-radius: 7px;
-      padding: 10px;
-      min-width: 0;
-    }
-
-    .yh-metric span {
-      display: block;
-      color: var(--yh-muted);
-      font-size: 12px;
-      margin-bottom: 7px;
-    }
-
-    .yh-metric strong {
-      display: block;
-      color: var(--yh-ink);
-      font-size: 17px;
-      line-height: 1.25;
-      overflow-wrap: anywhere;
-    }
-
-    .yh-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.52fr) minmax(310px, 0.78fr);
+      grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
       gap: 14px;
       padding: 14px;
       align-items: start;
     }
 
     .yh-panel {
+      position: relative;
+      min-width: 0;
       background: var(--yh-panel);
       border: 1px solid var(--yh-line);
       border-radius: 8px;
       padding: 14px;
-      min-width: 0;
+      box-shadow: inset 0 0 24px rgba(86, 217, 255, 0.035);
+    }
+
+    .yh-panel::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(86, 217, 255, 0.08);
+      pointer-events: none;
     }
 
     .yh-panel h3 {
+      position: relative;
+      z-index: 1;
       margin: 0 0 12px;
-      color: var(--yh-gold-soft);
-      font-size: 15px;
-      font-weight: 700;
+      color: var(--yh-cyan-soft);
+      font-size: 14px;
+      font-weight: 800;
       letter-spacing: 0;
     }
 
-    .yh-panel-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .yh-panel-head h3 {
-      margin: 0;
-    }
-
-    .yh-panel-head span {
-      color: var(--yh-muted);
-      font-size: 12px;
-      white-space: nowrap;
-    }
-
-    .yh-profile-grid {
+    .yh-hud-main {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 14px;
     }
 
-    .yh-profile-card {
+    .yh-scan-grid {
       display: grid;
-      grid-template-columns: 54px minmax(0, 1fr);
-      gap: 12px;
-      background: rgba(8, 7, 5, 0.58);
-      border: 1px solid rgba(216, 179, 90, 0.2);
-      border-radius: 8px;
-      padding: 12px;
-      min-width: 0;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
     }
 
-    .yh-profile-card.is-focus {
-      border-color: rgba(240, 217, 149, 0.52);
-      background: rgba(35, 27, 18, 0.76);
-    }
-
-    .yh-avatar {
-      width: 54px;
-      height: 54px;
-      border-radius: 8px;
-      border: 1px solid rgba(240, 217, 149, 0.42);
-      display: grid;
-      place-items: center;
-      background:
-        linear-gradient(145deg, rgba(216, 179, 90, 0.28), rgba(0, 0, 0, 0.2)),
-        #15100b;
-      color: var(--yh-gold-soft);
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    .yh-profile-main {
-      min-width: 0;
-    }
-
-    .yh-profile-title {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 2px;
-    }
-
-    .yh-profile-title strong {
-      color: var(--yh-gold-soft);
-      font-size: 16px;
+    .yh-metric {
+      position: relative;
+      z-index: 1;
+      min-height: 82px;
+      background: var(--yh-panel-soft);
+      border: 1px solid var(--yh-line-soft);
+      border-radius: 7px;
+      padding: 10px;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
-    .yh-stage {
-      border: 1px solid rgba(216, 179, 90, 0.28);
-      border-radius: 99px;
-      color: var(--yh-gold-soft);
-      font-size: 12px;
-      padding: 3px 7px;
-      white-space: nowrap;
-      background: rgba(216, 179, 90, 0.08);
+    .yh-metric::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--yh-cyan), transparent);
+      opacity: 0.7;
     }
 
-    .yh-identity,
-    .yh-attitude,
-    .yh-last {
+    .yh-metric span {
+      display: block;
       color: var(--yh-muted);
       font-size: 12px;
-      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+
+    .yh-metric strong {
+      display: block;
+      color: var(--yh-ink);
+      font-size: 18px;
+      line-height: 1.25;
       overflow-wrap: anywhere;
     }
 
-    .yh-attitude {
-      color: var(--yh-ink);
-      margin-top: 7px;
-    }
-
-    .yh-bars {
+    .yh-radar {
+      position: relative;
+      z-index: 1;
       display: grid;
-      gap: 7px;
-      margin: 10px 0;
-    }
-
-    .yh-bar-row {
-      display: grid;
-      grid-template-columns: 34px minmax(0, 1fr) 34px;
-      gap: 7px;
+      grid-template-columns: 164px minmax(0, 1fr);
+      gap: 14px;
       align-items: center;
+    }
+
+    .yh-radar-disc {
+      width: 164px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(86, 217, 255, 0.48);
+      background:
+        radial-gradient(circle, transparent 0 22%, rgba(86, 217, 255, 0.12) 23% 24%, transparent 25% 48%, rgba(86, 217, 255, 0.12) 49% 50%, transparent 51%),
+        conic-gradient(from 25deg, rgba(86, 217, 255, 0.45), rgba(86, 217, 255, 0.03) 38%, transparent 39%),
+        rgba(0, 0, 0, 0.3);
+      box-shadow: inset 0 0 30px rgba(86, 217, 255, 0.18), 0 0 18px rgba(86, 217, 255, 0.12);
+    }
+
+    .yh-radar-data {
+      display: grid;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .yh-lineitem {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(86, 217, 255, 0.12);
+      padding-top: 9px;
+      margin-top: 9px;
+      color: var(--yh-ink);
+      font-size: 13px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    .yh-lineitem:first-child {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .yh-ability-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .yh-ability {
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(86, 217, 255, 0.18);
+      border-radius: 7px;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .yh-ability span {
+      display: flex;
+      justify-content: space-between;
       color: var(--yh-muted);
       font-size: 12px;
+      margin-bottom: 7px;
     }
 
     .yh-bar {
@@ -247,67 +261,7 @@
       display: block;
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #8c6a2c, var(--yh-gold-soft));
-    }
-
-    .yh-bar.trust i {
-      background: linear-gradient(90deg, #436c72, var(--yh-blue));
-    }
-
-    .yh-bar.alert i {
-      background: linear-gradient(90deg, #6d2f2c, var(--yh-red));
-    }
-
-    .yh-resources,
-    .yh-actions,
-    .yh-tags,
-    .yh-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .yh-chip {
-      border: 1px solid rgba(216, 179, 90, 0.22);
-      border-radius: 99px;
-      padding: 4px 8px;
-      color: var(--yh-muted);
-      font-size: 12px;
-      line-height: 1.3;
-      background: rgba(0, 0, 0, 0.18);
-    }
-
-    .yh-actions {
-      margin-top: 10px;
-    }
-
-    .yh-action-btn,
-    .yh-option {
-      border: 1px solid rgba(216, 179, 90, 0.28);
-      border-radius: 7px;
-      color: var(--yh-ink);
-      background: rgba(216, 179, 90, 0.09);
-      font: inherit;
-      cursor: pointer;
-      text-align: left;
-    }
-
-    .yh-action-btn {
-      padding: 7px 9px;
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .yh-option {
-      width: 100%;
-      min-height: 44px;
-      padding: 10px;
-    }
-
-    .yh-action-btn:hover,
-    .yh-option:hover {
-      background: rgba(216, 179, 90, 0.16);
-      border-color: rgba(240, 217, 149, 0.54);
+      background: linear-gradient(90deg, #2c7d94, var(--yh-cyan-soft));
     }
 
     .yh-side {
@@ -315,57 +269,124 @@
       gap: 14px;
     }
 
+    .yh-log {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 8px;
+    }
+
+    .yh-log-line {
+      color: var(--yh-muted);
+      font-size: 12px;
+      line-height: 1.55;
+      border-left: 2px solid rgba(86, 217, 255, 0.42);
+      padding-left: 9px;
+    }
+
+    .yh-log-line strong {
+      color: var(--yh-cyan-soft);
+      font-weight: 700;
+    }
+
     .yh-story {
-      line-height: 1.72;
-      font-size: 14px;
-      color: var(--yh-ink);
-      max-height: 270px;
+      position: relative;
+      z-index: 1;
+      max-height: 320px;
       overflow: auto;
+      color: var(--yh-ink);
+      font-size: 14px;
+      line-height: 1.78;
       overflow-wrap: anywhere;
+      padding-right: 3px;
+    }
+
+    .yh-story p {
+      margin: 0;
     }
 
     .yh-options {
-      display: grid;
-      grid-template-columns: 1fr;
-    }
-
-    .yh-world {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
 
-    .yh-lineitem {
-      border-top: 1px solid rgba(216, 179, 90, 0.14);
-      padding-top: 10px;
-      margin-top: 10px;
-      color: var(--yh-ink);
-      font-size: 13px;
-      line-height: 1.55;
-      overflow-wrap: anywhere;
-    }
-
-    .yh-lineitem:first-child {
-      border-top: 0;
-      padding-top: 0;
-      margin-top: 0;
-    }
-
-    .yh-muted {
-      color: var(--yh-muted);
-    }
-
-    .yh-support {
+    .yh-option {
+      min-height: 112px;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 14px;
-      padding: 0 14px 14px;
+      gap: 8px;
+      border: 1px solid rgba(86, 217, 255, 0.28);
+      border-radius: 8px;
+      color: var(--yh-ink);
+      background: rgba(6, 22, 31, 0.84);
+      font: inherit;
+      cursor: pointer;
+      text-align: left;
+      padding: 11px;
     }
 
-    .yh-feed {
-      max-height: 180px;
-      overflow: auto;
-      padding-right: 4px;
+    .yh-option.best {
+      border-color: rgba(101, 240, 164, 0.72);
+      box-shadow: 0 0 22px rgba(101, 240, 164, 0.14), inset 0 0 18px rgba(101, 240, 164, 0.08);
+    }
+
+    .yh-option:hover {
+      border-color: rgba(184, 240, 255, 0.68);
+      background: rgba(10, 35, 48, 0.92);
+    }
+
+    .yh-option-title {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 13px;
+      line-height: 1.48;
+      font-weight: 700;
+    }
+
+    .yh-score-row,
+    .yh-chip-row,
+    .yh-mini-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .yh-chip {
+      border: 1px solid rgba(86, 217, 255, 0.28);
+      border-radius: 99px;
+      padding: 4px 8px;
+      color: var(--yh-muted);
+      font-size: 12px;
+      line-height: 1.3;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .yh-chip.gold {
+      border-color: rgba(240, 217, 149, 0.44);
+      color: var(--yh-gold-soft);
+    }
+
+    .yh-chip.green {
+      border-color: rgba(101, 240, 164, 0.48);
+      color: var(--yh-green);
+    }
+
+    .yh-chip.red {
+      border-color: rgba(255, 109, 99, 0.5);
+      color: var(--yh-red);
+    }
+
+    .yh-option-score {
+      color: var(--yh-green);
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
     }
 
     .yh-fallback {
@@ -374,15 +395,80 @@
       font-size: 14px;
     }
 
+    .yh-relations {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .yh-profile-card {
+      background: rgba(4, 10, 14, 0.78);
+      border: 1px solid rgba(86, 217, 255, 0.16);
+      border-radius: 7px;
+      padding: 9px;
+      min-width: 0;
+    }
+
+    .yh-profile-card strong {
+      display: block;
+      color: var(--yh-gold-soft);
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .yh-profile-card small {
+      display: block;
+      color: var(--yh-muted);
+      font-size: 12px;
+      margin: 4px 0 7px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .yh-support {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+      padding: 0 14px 14px;
+    }
+
+    .yh-narrative-row {
+      position: relative;
+      z-index: 1;
+      padding: 0 14px 14px;
+    }
+
+    .yh-tags,
+    .yh-feed {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .yh-feed {
+      display: block;
+      max-height: 170px;
+      overflow: auto;
+    }
+
     .yh-toast {
       position: fixed;
       right: 18px;
       bottom: 18px;
       z-index: 9999;
-      background: rgba(15, 12, 9, 0.96);
-      border: 1px solid rgba(240, 217, 149, 0.45);
+      background: rgba(3, 10, 13, 0.96);
+      border: 1px solid rgba(86, 217, 255, 0.45);
       border-radius: 7px;
-      color: var(--yh-gold-soft);
+      color: var(--yh-cyan-soft);
       padding: 9px 12px;
       font-size: 13px;
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
@@ -397,24 +483,27 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 900px) {
-      .yh-layout,
+    @media (max-width: 940px) {
+      .yh-terminal,
       .yh-support {
         grid-template-columns: 1fr;
       }
 
-      .yh-profile-grid,
-      .yh-strip {
+      .yh-scan-grid,
+      .yh-ability-grid,
+      .yh-options,
+      .yh-relations {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
     @media (max-width: 560px) {
-      .yh-topbar,
-      .yh-profile-card,
-      .yh-profile-grid,
-      .yh-strip,
-      .yh-world {
+      .yh-osbar,
+      .yh-radar,
+      .yh-scan-grid,
+      .yh-ability-grid,
+      .yh-options,
+      .yh-relations {
         grid-template-columns: 1fr;
       }
 
@@ -423,69 +512,88 @@
         white-space: normal;
       }
 
-      .yh-profile-card {
-        gap: 10px;
+      .yh-radar-disc {
+        width: 100%;
+        max-width: 180px;
       }
     }
   </style>
 
-  <div class="yh-topbar">
-    <div class="yh-title">
-      <strong>云海神豪系统</strong>
-      <span id="yh-subtitle">黑金名利场 · 关系资源与商业版图</span>
+  <div class="yh-osbar">
+    <div class="yh-brand">
+      <strong>云海神豪系统 OS</strong>
+      <span><span class="yh-status-dot"></span>CAPITAL ENGINE ONLINE · RISK SCAN · RELATION RESOURCE MAP</span>
     </div>
-    <div class="yh-clock" id="yh-clock">读取世界状态中...</div>
+    <div class="yh-clock" id="yh-clock">SYNCING...</div>
   </div>
 
-  <div class="yh-strip">
-    <div class="yh-metric"><span>现金</span><strong id="yh-cash">--</strong></div>
-    <div class="yh-metric"><span>总资产</span><strong id="yh-assets">--</strong></div>
-    <div class="yh-metric"><span>声望</span><strong id="yh-reputation">--</strong></div>
-    <div class="yh-metric"><span>风险</span><strong id="yh-risk">--</strong></div>
-  </div>
-
-  <div class="yh-layout">
-    <div class="yh-panel">
-      <div class="yh-panel-head">
-        <h3>女主关系档案</h3>
-        <span id="yh-focus">五条关系线待推进</span>
+  <div class="yh-terminal">
+    <div class="yh-hud-main">
+      <div class="yh-panel">
+        <h3>资产扫描 / CAPITAL SCAN</h3>
+        <div class="yh-scan-grid">
+          <div class="yh-metric"><span>现金流动性</span><strong id="yh-cash">--</strong></div>
+          <div class="yh-metric"><span>总资产估值</span><strong id="yh-assets">--</strong></div>
+          <div class="yh-metric"><span>城市声望</span><strong id="yh-reputation">--</strong></div>
+          <div class="yh-metric"><span>暴露风险</span><strong id="yh-risk">--</strong></div>
+        </div>
       </div>
-      <div class="yh-profile-grid" id="yh-profiles"></div>
+
+      <div class="yh-panel">
+        <h3>任务雷达 / MISSION RADAR</h3>
+        <div class="yh-radar">
+          <div class="yh-radar-disc"></div>
+          <div class="yh-radar-data">
+            <div class="yh-lineitem"><span class="yh-muted">当前地点</span><br><span id="yh-location">云海市CBD</span></div>
+            <div class="yh-lineitem"><span class="yh-muted">当前主线</span><br><span id="yh-mainline">黑金名利场开局</span></div>
+            <div class="yh-lineitem" id="yh-action">当前行动：等待玩家选择</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="yh-panel">
+        <h3>能力评估 / ABILITY MATRIX</h3>
+        <div class="yh-ability-grid" id="yh-abilities"></div>
+      </div>
     </div>
 
     <div class="yh-side">
       <div class="yh-panel">
-        <h3>本轮剧情</h3>
-        <div class="yh-story" id="yh-story">
-          <p class="yh-fallback">夜色落在云海市，系统正在同步最新一轮剧情。</p>
-        </div>
+        <h3>系统日志 / SYS LOG</h3>
+        <div class="yh-log" id="yh-system-log"></div>
       </div>
+    </div>
+  </div>
 
-      <div class="yh-panel">
-        <h3>行动选项</h3>
-        <div class="yh-options" id="yh-options"></div>
-      </div>
-
-      <div class="yh-panel">
-        <h3>城市与行程</h3>
-        <div class="yh-world">
-          <div class="yh-lineitem"><span class="yh-muted">地点</span><br><span id="yh-location">云海市</span></div>
-          <div class="yh-lineitem"><span class="yh-muted">天气</span><br><span id="yh-weather">微雨</span></div>
-        </div>
-        <div class="yh-lineitem"><span class="yh-muted">主线</span><br><span id="yh-mainline">黑金名利场开局</span></div>
-        <div class="yh-lineitem" id="yh-action">当前行动：等待玩家选择</div>
+  <div class="yh-narrative-row">
+    <div class="yh-panel">
+      <h3>本轮剧情 / NARRATIVE</h3>
+      <div class="yh-story" id="yh-story">
+        <p class="yh-fallback">系统正在等待下一次叙事写入。</p>
       </div>
     </div>
   </div>
 
   <div class="yh-support">
     <div class="yh-panel">
-      <h3>产业版图</h3>
+      <h3>系统行动建议 / ACTION FORECAST</h3>
+      <div class="yh-options" id="yh-options"></div>
+    </div>
+
+    <div class="yh-panel">
+      <h3>关系资源库 / RELATION ASSETS</h3>
+      <div class="yh-relations" id="yh-relations"></div>
+    </div>
+  </div>
+
+  <div class="yh-support">
+    <div class="yh-panel">
+      <h3>产业版图 / INDUSTRIES</h3>
       <div class="yh-tags" id="yh-industries"></div>
     </div>
 
     <div class="yh-panel">
-      <h3>事件日志</h3>
+      <h3>事件日志 / EVENT LOG</h3>
       <div class="yh-feed" id="yh-events"></div>
     </div>
   </div>
@@ -496,91 +604,15 @@
     (() => {
       const $root = document.getElementById('yunhai-shenhao-app');
       const HEROINE_BASE = [
-        {
-          name: '沈清璃',
-          identity: '投行合伙人',
-          stage: '审视中的商业对象',
-          attitude: '冷静评估你的履约能力',
-          like: 0,
-          trust: 0,
-          alert: 35,
-          resources: ['投行资源', '并购渠道', '财务尽调'],
-          event: '濒危酒店并购线',
-          actions: [
-            '约沈清璃会面，讨论濒危酒店的并购方案。',
-            '请沈清璃评估当前资产风险，并给出财务尽调清单。',
-            '调用沈清璃的投行渠道，寻找一笔可控的收购标的。'
-          ]
-        },
-        {
-          name: '顾晚音',
-          identity: '豪门继承人',
-          stage: '传闻中的竞争者',
-          attitude: '以旧钱阶层的标准观察你',
-          like: 0,
-          trust: -5,
-          alert: 45,
-          resources: ['豪门网络', '商会门票', '竞价情报'],
-          event: '云海商会入场线',
-          actions: [
-            '邀请顾晚音参加一场私人晚宴，试探她对合作的真实态度。',
-            '推进顾晚音的商会事件，争取一张高端圈层入场券。',
-            '调用顾晚音的竞价情报，判断下一次拍卖是否值得出手。'
-          ]
-        },
-        {
-          name: '林知夏',
-          identity: '私人生活助理候选人',
-          stage: '等待面试',
-          attitude: '谨慎期待一份被尊重的机会',
-          like: 5,
-          trust: 5,
-          alert: 15,
-          resources: ['行程管理', '私人助理', '生活与效率增益'],
-          event: '私人团队组建线',
-          actions: [
-            '安排林知夏进行助理面试，明确职责、薪酬与边界。',
-            '请林知夏整理今日行程，优化商业会面顺序。',
-            '推进林知夏的成长事件，给她一次独立处理事务的机会。'
-          ]
-        },
-        {
-          name: '苏曼青',
-          identity: '顶流演员',
-          stage: '镜头之外的陌生人',
-          attitude: '警惕资本靠近她的真实生活',
-          like: 0,
-          trust: 0,
-          alert: 30,
-          resources: ['传媒曝光', '品牌代言', '舆论反制'],
-          event: '娱乐舆论危机线',
-          actions: [
-            '联系苏曼青的经纪团队，提出一次不越界的合作会面。',
-            '推进苏曼青的舆论事件，查清热搜背后的资本推手。',
-            '调用苏曼青的传媒资源，为新产业设计一次品牌曝光。'
-          ]
-        },
-        {
-          name: '许明月',
-          identity: '精英律师',
-          stage: '专业距离',
-          attitude: '只相信证据、合同和可验证承诺',
-          like: 0,
-          trust: 0,
-          alert: 30,
-          resources: ['法律风控', '合同审查', '危机处理'],
-          event: '法务风控护城河',
-          actions: [
-            '约许明月审查收购合同，主动暴露潜在风险。',
-            '推进许明月的危机处理事件，调查对手的合同漏洞。',
-            '调用许明月的法律风控能力，为当前产业建立合规方案。'
-          ]
-        }
+        { name: '沈清璃', identity: '投行合伙人', stage: '审视中的商业对象', like: 0, trust: 0, alert: 35, resource: '投行/并购/尽调' },
+        { name: '顾晚音', identity: '豪门继承人', stage: '传闻中的竞争者', like: 0, trust: -5, alert: 45, resource: '豪门/商会/竞价' },
+        { name: '林知夏', identity: '私人生活助理候选人', stage: '等待面试', like: 5, trust: 5, alert: 15, resource: '行程/助理/效率' },
+        { name: '苏曼青', identity: '顶流演员', stage: '镜头之外的陌生人', like: 0, trust: 0, alert: 30, resource: '传媒/代言/舆论' },
+        { name: '许明月', identity: '精英律师', stage: '专业距离', like: 0, trust: 0, alert: 30, resource: '法务/合同/危机' }
       ];
 
       const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value || 0)));
       const relationPercent = value => clamp((Number(value || 0) + 100) / 2, 0, 100);
-      const eventPercent = value => clamp(Number(value || 0), 0, 100);
       const fmtMoney = value => {
         const n = Number(value || 0);
         if (n >= 100000000) return `¥${(n / 100000000).toFixed(2)}亿`;
@@ -588,8 +620,21 @@
         return `¥${n.toLocaleString('zh-CN')}`;
       };
       const safeText = value => String(value ?? '').replace(/[<>&"]/g, s => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[s]));
-      const normalizeText = value => String(value ?? '').replace(/<condition>[\s\S]*?<\/condition>/gi, '').replace(/^[a-d]\.\s*/i, '').replace(/\s+/g, ' ').trim();
-      const firstChar = value => String(value || '云').trim().slice(0, 1);
+      const stripTags = value => String(value ?? '')
+        .replace(/<condition>[\s\S]*?<\/condition>/gi, '')
+        .replace(/<score\b[^>]*>[\s\S]*?<\/score>/gi, '')
+        .replace(/^[a-d]\.\s*/i, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      const attrsOf = tagText => {
+        const attrs = {};
+        String(tagText || '').replace(/([a-zA-Z_][\w-]*)="([^"]*)"/g, (_, key, value) => {
+          attrs[key] = value;
+          return '';
+        });
+        return attrs;
+      };
 
       const getDoc = () => {
         try {
@@ -609,14 +654,9 @@
 
       const setStInput = text => {
         const doc = getDoc();
-        const selectors = [
-          '#send_textarea',
-          'textarea[name="send_textarea"]',
-          '#chat_textarea',
-          'textarea[placeholder]',
-          'textarea'
-        ];
-        const input = selectors.map(selector => doc.querySelector(selector)).find(Boolean);
+        const input = ['#send_textarea', 'textarea[name="send_textarea"]', '#chat_textarea', 'textarea[placeholder]', 'textarea']
+          .map(selector => doc.querySelector(selector))
+          .find(Boolean);
         if (!input) return false;
         input.focus();
         input.value = text;
@@ -627,33 +667,20 @@
 
       const clickStSend = () => {
         const doc = getDoc();
-        const selectors = [
-          '#send_but',
-          '#send_button',
-          '.send_button',
-          'button[title*="Send"]',
-          'button[aria-label*="Send"]',
-          'button[title*="发送"]',
-          'button[aria-label*="发送"]'
-        ];
-        const button = selectors.map(selector => doc.querySelector(selector)).find(el => el && !el.disabled);
+        const button = ['#send_but', '#send_button', '.send_button', 'button[title*="Send"]', 'button[aria-label*="Send"]', 'button[title*="发送"]', 'button[aria-label*="发送"]']
+          .map(selector => doc.querySelector(selector))
+          .find(el => el && !el.disabled);
         if (!button) return false;
         button.click();
         return true;
       };
 
       const sendAction = text => {
-        const clean = normalizeText(text);
+        const clean = stripTags(text);
         if (!clean) return;
         const filled = setStInput(clean);
-        if (filled && clickStSend()) {
-          showToast('已发送行动');
-          return;
-        }
-        if (filled) {
-          showToast('已填入输入框，请手动发送');
-          return;
-        }
+        if (filled && clickStSend()) return showToast('已发送行动');
+        if (filled) return showToast('已填入输入框，请手动发送');
         showToast('未找到输入框，请手动输入该行动');
       };
 
@@ -678,10 +705,7 @@
       };
 
       const tag = (name, source) => {
-        const normalized = String(source || '')
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&amp;/g, '&');
+        const normalized = String(source || '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
         const match = normalized.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`, 'i'));
         return match ? match[1].trim() : '';
       };
@@ -695,10 +719,14 @@
           .filter(x => /^[a-d]\./i.test(x))
           .map(raw => {
             const conditionMatch = raw.match(/<condition>([\s\S]*?)<\/condition>/i);
+            const scoreMatch = raw.match(/<score\b([^>]*)>([\s\S]*?)<\/score>/i);
+            const score = scoreMatch ? attrsOf(scoreMatch[1]) : {};
+            if (scoreMatch && !score.note) score.note = scoreMatch[2].trim();
             return {
               raw,
-              label: normalizeText(raw),
-              condition: conditionMatch ? conditionMatch[1].trim() : ''
+              label: stripTags(raw),
+              condition: conditionMatch ? conditionMatch[1].trim() : '',
+              score
             };
           })
           .slice(0, 4);
@@ -712,7 +740,7 @@
             return null;
           }
         })();
-        const candidates = [
+        return [
           window.stat_data,
           window.yunhaiStatData,
           window.__YUNHAI_STAT_DATA__,
@@ -721,67 +749,68 @@
           parentWindow?.yunhaiStatData,
           parentWindow?.__YUNHAI_STAT_DATA__,
           parentWindow?.TavernHelper?.variables?.stat_data
+        ].find(x => x && typeof x === 'object') || {};
+      };
+
+      const renderAbilities = ability => {
+        const specs = [
+          ['资本', ability.资本?.数值 ?? 20],
+          ['魅力', ability.魅力?.数值 ?? 18],
+          ['权势', ability.权势?.数值 ?? 12],
+          ['洞察', ability.洞察?.数值 ?? 16]
         ];
-        return candidates.find(x => x && typeof x === 'object') || {};
-      };
-
-      const recentText = value => {
-        if (Array.isArray(value)) return value.length ? value[value.length - 1] : '尚未留下关键互动';
-        return value || '尚未留下关键互动';
-      };
-
-      const mergedProfiles = relations => HEROINE_BASE.map((base, index) => {
-        const record = relations?.[base.name] || {};
-        return {
-          ...base,
-          index,
-          identity: record.身份 || base.identity,
-          stage: record.关系阶段 || base.stage,
-          like: Number(record.好感 ?? base.like),
-          trust: Number(record.信任 ?? base.trust),
-          alert: Number(record.警惕 ?? base.alert),
-          attitude: record.当前态度 || base.attitude,
-          last: recentText(record.最近互动),
-          progress: record.专属事件进度 ?? 0
-        };
-      });
-
-      const renderProfiles = relations => {
-        const profiles = mergedProfiles(relations);
-        const activeCount = profiles.filter(p => {
-          const record = relations?.[p.name];
-          return record && (Number(record.好感 ?? 0) !== 0 || Number(record.信任 ?? 0) !== 0 || Number(record.专属事件进度 ?? 0) > 0 || Boolean(record.最近互动?.length));
-        }).length;
-        document.getElementById('yh-focus').textContent = activeCount ? `${activeCount} 条关系线已有变化` : '五条关系线待推进';
-        document.getElementById('yh-profiles').innerHTML = profiles.map(profile => {
-          const resources = profile.resources.map(item => `<span class="yh-chip">${safeText(item)}</span>`).join('');
-          const actions = profile.actions.map(action => `<button class="yh-action-btn" data-action="${safeText(action)}">${safeText(action.replace(/，[\s\S]*$/, ''))}</button>`).join('');
-          const focus = profile.progress > 0 || profile.like > 20 || profile.trust > 20 ? ' is-focus' : '';
-          return `<article class="yh-profile-card${focus}">
-            <div class="yh-avatar">${safeText(firstChar(profile.name))}</div>
-            <div class="yh-profile-main">
-              <div class="yh-profile-title">
-                <strong>${safeText(profile.name)}</strong>
-                <span class="yh-stage">${safeText(profile.stage)}</span>
-              </div>
-              <div class="yh-identity">${safeText(profile.identity)} · ${safeText(profile.event)}</div>
-              <div class="yh-bars">
-                <div class="yh-bar-row"><span>好感</span><div class="yh-bar"><i style="width:${relationPercent(profile.like)}%"></i></div><span>${safeText(profile.like)}</span></div>
-                <div class="yh-bar-row"><span>信任</span><div class="yh-bar trust"><i style="width:${relationPercent(profile.trust)}%"></i></div><span>${safeText(profile.trust)}</span></div>
-                <div class="yh-bar-row"><span>警惕</span><div class="yh-bar alert"><i style="width:${relationPercent(profile.alert)}%"></i></div><span>${safeText(profile.alert)}</span></div>
-                <div class="yh-bar-row"><span>事件</span><div class="yh-bar"><i style="width:${eventPercent(profile.progress)}%"></i></div><span>${safeText(profile.progress)}%</span></div>
-              </div>
-              <div class="yh-attitude">当前态度：${safeText(profile.attitude)}</div>
-              <div class="yh-last">最近互动：${safeText(profile.last)}</div>
-              <div class="yh-resources">${resources}</div>
-              <div class="yh-actions">${actions}</div>
-            </div>
-          </article>`;
+        document.getElementById('yh-abilities').innerHTML = specs.map(([name, value]) => {
+          const v = clamp(value, 0, 100);
+          return `<div class="yh-ability"><span><b>${safeText(name)}</b><b>${v}</b></span><div class="yh-bar"><i style="width:${v}%"></i></div></div>`;
         }).join('');
+      };
 
-        document.querySelectorAll('.yh-action-btn').forEach(btn => {
+      const renderOptions = options => {
+        document.getElementById('yh-options').innerHTML = options.length
+          ? options.map(opt => {
+            const s = opt.score || {};
+            const best = String(s.best || '').toLowerCase() === 'true';
+            const total = s.total || '评估中';
+            const riskClass = String(s.risk || '').startsWith('+') ? 'red' : 'green';
+            return `<button class="yh-option${best ? ' best' : ''}" data-action="${safeText(opt.label)}">
+              <div class="yh-option-title"><span>${safeText(opt.label)}</span><span class="yh-option-score">${safeText(total)}</span></div>
+              <div class="yh-chip-row">
+                ${best ? '<span class="yh-chip green">系统推荐</span>' : '<span class="yh-chip">可选路径</span>'}
+                ${opt.condition ? `<span class="yh-chip gold">${safeText(opt.condition)}</span>` : '<span class="yh-chip">无条件</span>'}
+              </div>
+              <div class="yh-score-row">
+                <span class="yh-chip">资本 ${safeText(s.capital ?? '0')}</span>
+                <span class="yh-chip">魅力 ${safeText(s.charm ?? '0')}</span>
+                <span class="yh-chip">权势 ${safeText(s.power ?? '0')}</span>
+                <span class="yh-chip">洞察 ${safeText(s.insight ?? '0')}</span>
+                <span class="yh-chip ${riskClass}">风险 ${safeText(s.risk ?? '评估中')}</span>
+              </div>
+              <div class="yh-mini-row"><span class="yh-chip">${safeText(s.relation ? `关系 ${s.relation}` : '关系 评估中')}</span></div>
+            </button>`;
+          }).join('')
+          : '<button class="yh-option" data-action="查看云海神豪系统的资产、任务和当前可行动线。"><div class="yh-option-title"><span>查看当前局势</span><span class="yh-option-score">--</span></div><span class="yh-chip">系统评估中</span></button>';
+
+        document.querySelectorAll('.yh-option').forEach(btn => {
           btn.addEventListener('click', () => sendAction(btn.dataset.action || btn.textContent));
         });
+      };
+
+      const renderRelations = relations => {
+        document.getElementById('yh-relations').innerHTML = HEROINE_BASE.map(base => {
+          const r = relations?.[base.name] || {};
+          const like = Number(r.好感 ?? base.like);
+          const trust = Number(r.信任 ?? base.trust);
+          const alert = Number(r.警惕 ?? base.alert);
+          return `<article class="yh-profile-card">
+            <strong>${safeText(base.name)}</strong>
+            <small>${safeText(r.关系阶段 || base.stage)}</small>
+            <div class="yh-muted">${safeText(r.身份 || base.identity)}</div>
+            <div class="yh-muted">${safeText(base.resource)}</div>
+            <div class="yh-bar" title="好感"><i style="width:${relationPercent(like)}%"></i></div>
+            <div class="yh-bar" title="信任"><i style="width:${relationPercent(trust)}%"></i></div>
+            <div class="yh-bar" title="警惕"><i style="width:${relationPercent(alert)}%"></i></div>
+          </article>`;
+        }).join('');
       };
 
       const render = () => {
@@ -790,6 +819,7 @@
         const actor = data.主角信息 || {};
         const assets = data.资产信息 || {};
         const action = data.角色行动 || {};
+        const ability = data.能力信息 || {};
         const relations = data.女主关系 || {};
         const industries = data.产业信息 || {};
         const events = Array.isArray(data.事件日志) ? data.事件日志 : [];
@@ -797,32 +827,28 @@
         const story = tag('maintext', raw) || tag('sum', raw) || '';
         const options = parseOptions(raw);
 
-        document.getElementById('yh-clock').textContent = `${world.当前日期 || '2026-05-16'} · ${world.当前时间 || '20:00'}`;
+        document.getElementById('yh-clock').textContent = `${world.当前日期 || '2026-05-16'} · ${world.当前时间 || '20:00'} · ${world.天气 || '微雨'}`;
         document.getElementById('yh-cash').textContent = fmtMoney(assets.现金 ?? actor.现金);
         document.getElementById('yh-assets').textContent = fmtMoney(assets.总资产);
         document.getElementById('yh-reputation').textContent = `${clamp(actor.声望, 0, 100)} / 100`;
         document.getElementById('yh-risk').textContent = `${clamp(actor.风险值, 0, 100)} / 100`;
         document.getElementById('yh-location').textContent = action.当前位置 || world.当前地点 || '云海市CBD';
-        document.getElementById('yh-weather').textContent = world.天气 || '微雨';
-        document.getElementById('yh-mainline').textContent = world.当前主线 || '黑金名利场开局';
-        document.getElementById('yh-action').textContent = `当前行动：${action.当前行为 || '等待玩家选择'}｜目标：${action.当前目标 || '建立第一块商业版图'}`;
-
+        document.getElementById('yh-mainline').textContent = world.当前主线 || '神豪系统绑定';
+        document.getElementById('yh-action').textContent = `当前行动：${action.当前行为 || '等待玩家选择'}｜目标：${action.当前目标 || '确认系统能力边界'}`;
         document.getElementById('yh-story').innerHTML = story
-          ? safeText(story).replace(/\n/g, '<br>')
-          : '<p class="yh-fallback">云海的夜场已经开灯，下一次行动会把剧情写入这里。</p>';
+          ? `<p>${safeText(story).replace(/\n/g, '<br>')}</p>`
+          : '<p class="yh-fallback">系统正在等待第一段绑定叙事写入。</p>';
 
-        document.getElementById('yh-options').innerHTML = options.length
-          ? options.map(opt => {
-            const badge = opt.condition ? `<span class="yh-chip">${safeText(opt.condition)}</span>` : '';
-            return `<button class="yh-option" data-action="${safeText(opt.label)}">${badge}${safeText(opt.label)}</button>`;
-          }).join('')
-          : '<button class="yh-option" data-action="查看云海神豪系统的资产、女主关系和当前可行动线。">查看当前局势</button>';
+        document.getElementById('yh-system-log').innerHTML = [
+          ['资产接口', assets.现金 ? '已同步' : '等待绑定确认'],
+          ['风险扫描', `风险值 ${clamp(actor.风险值, 0, 100)} / 100`],
+          ['任务生成', world.当前主线 || '神豪系统绑定'],
+          ['关系资源', `${Object.keys(relations).length || 5} 个候选节点`]
+        ].map(([k, v]) => `<div class="yh-log-line"><strong>${safeText(k)}</strong> ${safeText(v)}</div>`).join('');
 
-        document.querySelectorAll('.yh-option').forEach(btn => {
-          btn.addEventListener('click', () => sendAction(btn.dataset.action || btn.textContent));
-        });
-
-        renderProfiles(relations);
+        renderAbilities(ability);
+        renderOptions(options);
+        renderRelations(relations);
 
         const industryEntries = Object.entries(industries);
         document.getElementById('yh-industries').innerHTML = industryEntries.length
@@ -831,7 +857,7 @@
 
         document.getElementById('yh-events').innerHTML = events.length
           ? events.slice(-8).reverse().map(e => `<div class="yh-lineitem">${safeText(typeof e === 'string' ? e : `${e.时间 || ''} ${e.内容 || e.事件 || ''}`)}</div>`).join('')
-          : '<div class="yh-fallback">第一条可记录事件，通常来自晚宴、收购、面试或危机处理。</div>';
+          : '<div class="yh-fallback">暂无事件写入。系统会在关键选择后记录资产、关系或风险变化。</div>';
       };
 
       render();
