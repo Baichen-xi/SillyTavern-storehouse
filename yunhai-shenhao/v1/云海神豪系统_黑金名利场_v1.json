@@ -106,6 +106,23 @@
           "maxDepth": null,
           "markdownOnly": true,
           "promptOnly": false
+        },
+        {
+          "id": "2e4b34cd-d63d-4c65-ad54-1b83b62d703e",
+          "scriptName": "对AI隐藏前端代码",
+          "disabled": false,
+          "runOnEdit": true,
+          "findRegex": "/```html\\s*<body>\\s*<textarea id=\\\"yh-raw-message\\\"[^>]*>([\\s\\S]*?)<\\/textarea>[\\s\\S]*?<\\/body>\\s*```/gi",
+          "trimStrings": [],
+          "replaceString": "$1",
+          "placement": [
+            2
+          ],
+          "substituteRegex": 0,
+          "minDepth": null,
+          "maxDepth": null,
+          "markdownOnly": false,
+          "promptOnly": true
         }
       ],
       "tavern_helper": {
