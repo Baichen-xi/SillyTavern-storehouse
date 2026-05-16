@@ -637,6 +637,95 @@
       };
 
       const hasObjectData = value => value && typeof value === 'object' && Object.keys(value).length > 0;
+      const deepClone = value => JSON.parse(JSON.stringify(value || {}));
+
+      const deepMerge = (target, source) => {
+        Object.entries(source || {}).forEach(([key, value]) => {
+          if (value && typeof value === 'object' && !Array.isArray(value)) {
+            target[key] = deepMerge(target[key] && typeof target[key] === 'object' && !Array.isArray(target[key]) ? target[key] : {}, value);
+          } else {
+            target[key] = value;
+          }
+        });
+        return target;
+      };
+
+      const fallbackDefaults = () => ({
+        主角信息: { 姓名: '陈舟', 年龄: 24, 身份: '神豪系统持有者', 声望: 10, 权势: 8, 风险值: 5, 当前称号: '云海新贵' },
+        资产信息: { 现金: 50000000, 总资产: 50000000, 日收益: 0, 负债: 0, 系统点数: 0 },
+        产业信息: {},
+        角色行动: { 当前位置: '云海市CBD', 当前行为: '等待玩家选择', 当前想法: '先弄清这座城市的权力结构。', 当前目标: '确认系统能力边界', 当前着装: '黑色定制西装' },
+        能力信息: { 资本: { 数值: 20 }, 魅力: { 数值: 18 }, 权势: { 数值: 12 }, 洞察: { 数值: 16 } },
+        女主关系: Object.fromEntries(HEROINE_BASE.map(item => [item.name, {
+          身份: item.identity,
+          关系阶段: item.stage,
+          好感: item.like,
+          信任: item.trust,
+          警惕: item.alert,
+          当前态度: '观察',
+          最近互动: [],
+          专属事件进度: 0
+        }])),
+        商业势力: {},
+        世界信息: { 当前地点: '云海市CBD', 当前日期: '2026-05-16', 当前时间: '20:00', 天气: '微雨', 当前主线: '神豪系统绑定', 限时事件: [] },
+        事件日志: []
+      });
+
+      const parentWindow = () => {
+        try {
+          return window.parent && window.parent !== window ? window.parent : null;
+        } catch (error) {
+          return null;
+        }
+      };
+
+      const fallbackStorage = () => {
+        try {
+          return window.localStorage || parentWindow()?.localStorage || null;
+        } catch (error) {
+          return null;
+        }
+      };
+
+      const fallbackStorageKey = () => {
+        let chatId = '';
+        try {
+          const parent = parentWindow();
+          chatId = parent?.SillyTavern?.getCurrentChatId?.() || parent?.this_chid || parent?.chat_metadata?.main_chat || '';
+        } catch (error) {}
+        return `yunhai-shenhao-display-state:${chatId || 'default'}`;
+      };
+
+      const readFallbackState = () => {
+        const storage = fallbackStorage();
+        if (!storage) return { data: fallbackDefaults(), lastPatchKey: '' };
+        try {
+          const saved = JSON.parse(storage.getItem(fallbackStorageKey()) || '{}');
+          return {
+            data: deepMerge(fallbackDefaults(), saved.data || {}),
+            lastPatchKey: saved.lastPatchKey || ''
+          };
+        } catch (error) {
+          return { data: fallbackDefaults(), lastPatchKey: '' };
+        }
+      };
+
+      const saveFallbackState = (data, lastPatchKey) => {
+        const storage = fallbackStorage();
+        if (!storage) return;
+        try {
+          storage.setItem(fallbackStorageKey(), JSON.stringify({ data, lastPatchKey, updatedAt: Date.now() }));
+        } catch (error) {}
+      };
+
+      const textHash = value => {
+        let hash = 0;
+        const text = String(value || '');
+        for (let index = 0; index < text.length; index += 1) {
+          hash = ((hash << 5) - hash + text.charCodeAt(index)) | 0;
+        }
+        return String(hash);
+      };
 
       const numericScore = value => {
         const n = Number(String(value ?? '').replace(/[^\d.-]/g, ''));
@@ -771,32 +860,29 @@
       };
 
       const readStatData = () => {
-        const parentWindow = (() => {
-          try {
-            return window.parent && window.parent !== window ? window.parent : null;
-          } catch (error) {
-            return null;
-          }
-        })();
+        const parent = parentWindow();
         const liveData = [
           window.stat_data,
           window.yunhaiStatData,
           window.__YUNHAI_STAT_DATA__,
           window.TavernHelper?.variables?.stat_data,
-          parentWindow?.stat_data,
-          parentWindow?.yunhaiStatData,
-          parentWindow?.__YUNHAI_STAT_DATA__,
-          parentWindow?.TavernHelper?.variables?.stat_data
+          parent?.stat_data,
+          parent?.yunhaiStatData,
+          parent?.__YUNHAI_STAT_DATA__,
+          parent?.TavernHelper?.variables?.stat_data
         ].find(hasObjectData);
 
-        const fallbackData = parseUpdateVariableData(rawMessage());
+        const fallback = readPatchedFallbackData(rawMessage());
         const hasLiveState = liveData && (
           Number(liveData.资产信息?.现金 || liveData.主角信息?.现金 || 0) > 0 ||
           hasObjectData(liveData.女主关系) ||
           Boolean(liveData.世界信息?.当前地点 || liveData.世界信息?.当前主线)
         );
-        if (hasLiveState) return { data: liveData, source: 'MVU同步' };
-        if (hasObjectData(fallbackData)) return { data: fallbackData, source: '当前回复兜底' };
+        if (hasLiveState) {
+          saveFallbackState(liveData, fallback.patchKey || '');
+          return { data: liveData, source: 'MVU同步' };
+        }
+        if (fallback.hasPatch || hasObjectData(fallback.data)) return { data: fallback.data, source: fallback.hasPatch ? '当前回复兜底' : '历史兜底' };
         return {
           data: liveData || {},
           source: liveData ? 'MVU待初始化' : '等待变量'
@@ -853,6 +939,26 @@
           }, {});
         } catch (error) {
           return {};
+        }
+      };
+
+      const readPatchedFallbackData = source => {
+        const patchText = tag('JSONPatch', tag('UpdateVariable', source) || source);
+        const saved = readFallbackState();
+        if (!patchText) return { data: saved.data, hasPatch: false, patchKey: saved.lastPatchKey };
+        const patchKey = textHash(patchText);
+        if (patchKey === saved.lastPatchKey) return { data: saved.data, hasPatch: true, patchKey };
+        try {
+          const patches = JSON.parse(patchText);
+          if (!Array.isArray(patches)) return { data: saved.data, hasPatch: false, patchKey: saved.lastPatchKey };
+          const nextData = patches.reduce((data, patch) => {
+            if (patch && typeof patch === 'object' && patch.path) applyPatchForDisplay(data, patch);
+            return data;
+          }, deepClone(saved.data));
+          saveFallbackState(nextData, patchKey);
+          return { data: nextData, hasPatch: true, patchKey };
+        } catch (error) {
+          return { data: saved.data, hasPatch: false, patchKey: saved.lastPatchKey };
         }
       };
 
