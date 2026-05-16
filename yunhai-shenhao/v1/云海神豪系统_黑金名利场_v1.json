@@ -61,7 +61,7 @@
           "runOnEdit": true,
           "findRegex": "/.+/s",
           "trimStrings": [],
-          "replaceString": "<div id=\"yh-raw-message\" style=\"display:none\">$&</div><div id=\"yh-external-root\"></div><script>$('#yh-external-root').load('https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-shenhao/v1/index.html')</script>",
+          "replaceString": "<div id=\"yh-raw-message\" style=\"display:none\">$&</div><div data-yh-ui-root style=\"padding:12px;border:1px solid #8c6a2c;border-radius:8px;color:#f0d995;background:#14100b;line-height:1.6\">云海神豪前端加载中……如果长时间不显示，请确认酒馆助手角色脚本已启用，或关闭本正则使用文本模式。</div>",
           "placement": [
             1,
             2
