@@ -123,6 +123,23 @@
           "maxDepth": null,
           "markdownOnly": false,
           "promptOnly": true
+        },
+        {
+          "id": "6a3d1d48-6903-468e-9096-1783f69061d9",
+          "scriptName": "对AI清理前端残片",
+          "disabled": false,
+          "runOnEdit": true,
+          "findRegex": "/```html[\\s\\S]*?(?:yh-loader|yh-raw-message|yunhai-shenhao\\/v1\\/index\\.html)[\\s\\S]*?```|<\\/?(?:body|script|textarea|template|details|summary|branch|branches)[^>]*>/gi",
+          "trimStrings": [],
+          "replaceString": "",
+          "placement": [
+            2
+          ],
+          "substituteRegex": 0,
+          "minDepth": null,
+          "maxDepth": null,
+          "markdownOnly": false,
+          "promptOnly": true
         }
       ],
       "tavern_helper": {
@@ -229,7 +246,7 @@
           "keys": [],
           "secondary_keys": [],
           "comment": "[sys]文本输出格式",
-          "content": "【剧情输出格式】\n每次回复仅允许以下 XML 块，顺序固定：\n1) 可选：<lastresult>上一轮完整选项文案<true|false></lastresult>\n2) 必填：<maintext>本轮正文</maintext>\n3) 必填：<option>四个行动选项</option>\n4) 必填：<sum>1-2句总结</sum>\n5) 必填：<UpdateVariable>变量更新</UpdateVariable>\n\n<maintext>要求:\n- 写结果与过程，不复述规则，不跳过玩家选择。\n- 成人暧昧只写氛围、眼神、距离、语言试探和情感张力，不写露骨性描写。\n- 商业动作要有可理解的收益、代价或风险。\n\n<option>要求:\n- 恰好 4 条，编号固定为 a. b. c. d.\n- 每条都是主角可立即执行的动作，不替玩家决定结果。\n- 至少 1 条带条件标签，条件标签仅允许 <condition>资本</condition>、<condition>魅力</condition>、<condition>权势</condition>、<condition>洞察</condition>。\n\n<sum>要求:\n- 压缩总结时间、地点、人物、核心事件，不新增设定。",
+          "content": "【剧情输出格式】\n每次回复仅允许以下 XML 块，顺序固定：\n1) 可选：<lastresult>上一轮完整选项文案<true|false></lastresult>\n2) 必填：<maintext>本轮正文</maintext>\n3) 必填：<option>四个行动选项</option>\n4) 必填：<sum>1-2句总结</sum>\n5) 必填：<UpdateVariable>变量更新</UpdateVariable>\n\n严禁输出:\n- 任何 Markdown 代码块，例如 ```html。\n- 任何前端、网页或酒馆助手渲染标签：<html>、<body>、<script>、<style>、<textarea>、<template>、<details>、<summary>、<branch>、<branches>、<StatusPlaceHolderImpl/>。\n- 任何解释前端如何渲染的内容。\n\n<maintext>要求:\n- 写结果与过程，不复述规则，不跳过玩家选择。\n- 成人暧昧只写氛围、眼神、距离、语言试探和情感张力，不写露骨性描写。\n- 商业动作要有可理解的收益、代价或风险。\n\n<option>要求:\n- 恰好 4 条，编号固定为 a. b. c. d.\n- 每条都是主角可立即执行的动作，不替玩家决定结果。\n- 至少 1 条带条件标签，条件标签仅允许 <condition>资本</condition>、<condition>魅力</condition>、<condition>权势</condition>、<condition>洞察</condition>。\n\n<sum>要求:\n- 压缩总结时间、地点、人物、核心事件，不新增设定。",
           "constant": true,
           "selective": true,
           "insertion_order": 30,
