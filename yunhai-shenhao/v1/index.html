@@ -389,6 +389,14 @@
           .map(x => x.trim())
           .filter(Boolean)
           .filter(x => /^[a-d]\./i.test(x))
+          .map(raw => {
+            const conditionMatch = raw.match(/<condition>([\s\S]*?)<\/condition>/i);
+            return {
+              raw,
+              label: raw.replace(/<condition>[\s\S]*?<\/condition>/gi, '').replace(/\s+/g, ' ').trim(),
+              condition: conditionMatch ? conditionMatch[1].trim() : '',
+            };
+          })
           .slice(0, 4);
       };
       const readStatData = () => {
@@ -428,7 +436,7 @@
           : '<p class="yh-fallback">未检测到 &lt;maintext&gt;。如果这是首轮或外链刚载入，可以继续发送“开始游戏”。</p>';
 
         document.getElementById('yh-options').innerHTML = options.length
-          ? options.map(opt => `<button class="yh-option" data-option="${safeText(opt)}">${safeText(opt)}</button>`).join('')
+          ? options.map(opt => `<button class="yh-option" data-option="${safeText(opt.raw)}">${safeText(opt.label)}</button>`).join('')
           : '<div class="yh-fallback">未检测到 &lt;option&gt;。保底可输入：查看资产、参加晚宴、约见沈清璃、休息。</div>';
 
         document.querySelectorAll('.yh-option').forEach(btn => {
