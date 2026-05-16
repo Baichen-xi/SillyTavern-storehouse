@@ -113,31 +113,42 @@
           {
             "type": "script",
             "enabled": true,
-            "name": "MVU",
+            "name": "MVU 变量更新脚本",
             "id": "f4907a5a-6d47-4b38-83dd-3687e8c97741",
-            "content": "import 'https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-shenhao/v1/mvu-adapter.js'",
+            "content": "import 'https://cdn.jsdelivr.net/gh/Baichen-xi/SillyTavern-storehouse@main/yunhai-shenhao/v1/mvu-adapter.js'",
             "info": "加载云海神豪卡的 MVU 变量更新适配层。",
-            "button": false,
-            "data": {}
+            "button": {
+              "enabled": true,
+              "buttons": []
+            },
+            "data": {
+              "是否显示变量更新错误": "是"
+            }
           },
           {
             "type": "script",
             "enabled": true,
-            "name": "ZOD Schema",
+            "name": "ZOD 变量结构脚本",
             "id": "d99000b1-aa47-4d01-b532-b9562b8d3405",
-            "content": "import 'https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-shenhao/v1/schema.js'",
+            "content": "import 'https://cdn.jsdelivr.net/gh/Baichen-xi/SillyTavern-storehouse@main/yunhai-shenhao/v1/schema.js'",
             "info": "注册云海神豪卡的变量结构、默认值、数值钳制和日志裁剪规则。",
-            "button": false,
+            "button": {
+              "enabled": true,
+              "buttons": []
+            },
             "data": {}
           },
           {
             "type": "script",
             "enabled": true,
-            "name": "前端桥接",
+            "name": "前端桥接与隐藏楼层",
             "id": "c3c2807e-d05f-461d-9615-e2dcdb35fcd0",
-            "content": "import 'https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-shenhao/v1/ui-bridge.js'",
+            "content": "import 'https://cdn.jsdelivr.net/gh/Baichen-xi/SillyTavern-storehouse@main/yunhai-shenhao/v1/ui-bridge.js'",
             "info": "隐藏旧楼层，监听聊天切换，并刷新外链前端。",
-            "button": false,
+            "button": {
+              "enabled": true,
+              "buttons": []
+            },
             "data": {}
           }
         ],
