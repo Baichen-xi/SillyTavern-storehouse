@@ -1,6 +1,6 @@
 # 云海神豪系统：黑金名利场 v1
 
-这是一个 SillyTavern 重度前端角色卡原型，结构仿照“世界书驱动 + MVU/Zod + 外链 HTML 前端”的卡片工程方式。v1.2 将主界面升级为“神豪系统终端”，并加入 AI 显式选项评分与单人触发女主色盘人设。
+这是一个 SillyTavern 重度前端角色卡原型，结构仿照“世界书驱动 + MVU/Zod + 外链 HTML 前端”的卡片工程方式。v1.3 在系统终端上加入评分兜底、当前回复变量兜底，并清理了隐藏楼层桥接脚本。
 
 ## 文件
 
@@ -8,7 +8,6 @@
 - `index.html`：黑金外链前端界面，主区域为高科技神豪系统终端。
 - `mvu-adapter.js`：MVU 依赖薄层入口。
 - `schema.js`：Zod 变量结构、默认值、数值钳制。
-- `ui-bridge.js`：隐藏旧楼层、监听聊天切换、刷新前端。
 
 ## v1.1 重点
 
@@ -24,6 +23,13 @@
 - `<option>` 支持 `<score>`，前端显示总收益、能力变化、关系变化、风险和系统推荐高亮。
 - 开场改为小说式系统绑定过程，先写异常、扫描、权限、资金托管，再进入玩家选择。
 - 五位女主从合并条目拆成单人触发世界书，降低提到一个名字时加载全部详设的概率。
+
+## v1.3 重点
+
+- 如果 AI 漏写 `<score>`，前端会按 `<condition>` 做“系统估算”，避免全显示 0 或评估中。
+- 如果当前楼层暂时读不到 MVU 的 `stat_data`，前端会只读解析本轮 `<UpdateVariable>` 显示现金、地点和关系初始化值。
+- 酒馆助手角色脚本只保留 MVU 与 Zod；已移除“前端桥接与隐藏楼层”。
+- “界面 - 酒馆助手iframe渲染”正则仅作用于 AI 回复，不再包装用户输入。
 
 ## GitHub Raw 路径
 
@@ -45,4 +51,4 @@ https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-
 - 已安装并启用酒馆助手/TavernHelper 类扩展，支持角色脚本。
 - 网络环境能访问 `raw.githubusercontent.com`。
 
-如果 Raw 链接无法访问，可以把 `index.html`、`mvu-adapter.js`、`schema.js`、`ui-bridge.js` 放到 VPS 静态目录，然后替换角色卡 JSON 里的 Raw URL。
+如果 Raw 链接无法访问，可以把 `index.html`、`mvu-adapter.js`、`schema.js` 放到 VPS 静态目录，然后替换角色卡 JSON 里的 Raw URL。

@@ -636,6 +636,31 @@
         return attrs;
       };
 
+      const hasObjectData = value => value && typeof value === 'object' && Object.keys(value).length > 0;
+
+      const numericScore = value => {
+        const n = Number(String(value ?? '').replace(/[^\d.-]/g, ''));
+        return Number.isFinite(n) ? n : 0;
+      };
+
+      const estimateScore = option => {
+        const condition = option.condition || '洞察';
+        const presets = {
+          资本: { total: '+6', capital: '+2', charm: '+0', power: '+1', insight: '+0', risk: '+2' },
+          魅力: { total: '+6', capital: '+0', charm: '+2', power: '+0', insight: '+1', risk: '+1' },
+          权势: { total: '+5', capital: '+0', charm: '+0', power: '+3', insight: '+0', risk: '+3' },
+          洞察: { total: '+7', capital: '+0', charm: '+0', power: '+0', insight: '+3', risk: '-1' }
+        };
+        const heroine = HEROINE_BASE.find(item => option.label.includes(item.name));
+        return {
+          ...(presets[condition] || presets.洞察),
+          relation: heroine ? `${heroine.name}+1` : '无',
+          best: 'false',
+          note: '系统估算',
+          estimated: 'true'
+        };
+      };
+
       const getDoc = () => {
         try {
           if (window.parent && window.parent !== window && window.parent.document) return window.parent.document;
@@ -712,7 +737,7 @@
 
       const parseOptions = source => {
         const body = tag('option', source);
-        return body
+        const options = body
           .split(/\n+/)
           .map(x => x.trim())
           .filter(Boolean)
@@ -722,14 +747,27 @@
             const scoreMatch = raw.match(/<score\b([^>]*)>([\s\S]*?)<\/score>/i);
             const score = scoreMatch ? attrsOf(scoreMatch[1]) : {};
             if (scoreMatch && !score.note) score.note = scoreMatch[2].trim();
-            return {
+            const option = {
               raw,
               label: stripTags(raw),
               condition: conditionMatch ? conditionMatch[1].trim() : '',
-              score
+              score,
+              explicitScore: Boolean(scoreMatch)
             };
+            if (!scoreMatch) option.score = estimateScore(option);
+            return option;
           })
           .slice(0, 4);
+
+        const hasBest = options.some(opt => String(opt.score?.best || '').toLowerCase() === 'true');
+        if (!hasBest && options.length) {
+          const bestOption = options.reduce((best, opt) => (
+            numericScore(opt.score?.total) > numericScore(best.score?.total) ? opt : best
+          ), options[0]);
+          bestOption.score.best = 'true';
+          if (!bestOption.score.note || bestOption.score.estimated === 'true') bestOption.score.note = '系统估算';
+        }
+        return options;
       };
 
       const readStatData = () => {
@@ -740,7 +778,7 @@
             return null;
           }
         })();
-        return [
+        const liveData = [
           window.stat_data,
           window.yunhaiStatData,
           window.__YUNHAI_STAT_DATA__,
@@ -749,7 +787,73 @@
           parentWindow?.yunhaiStatData,
           parentWindow?.__YUNHAI_STAT_DATA__,
           parentWindow?.TavernHelper?.variables?.stat_data
-        ].find(x => x && typeof x === 'object') || {};
+        ].find(hasObjectData);
+
+        const fallbackData = parseUpdateVariableData(rawMessage());
+        const hasLiveState = liveData && (
+          Number(liveData.资产信息?.现金 || liveData.主角信息?.现金 || 0) > 0 ||
+          hasObjectData(liveData.女主关系) ||
+          Boolean(liveData.世界信息?.当前地点 || liveData.世界信息?.当前主线)
+        );
+        if (hasLiveState) return { data: liveData, source: 'MVU同步' };
+        if (hasObjectData(fallbackData)) return { data: fallbackData, source: '当前回复兜底' };
+        return {
+          data: liveData || {},
+          source: liveData ? 'MVU待初始化' : '等待变量'
+        };
+      };
+
+      const pointerParts = path => String(path || '')
+        .split('/')
+        .slice(1)
+        .map(part => part.replace(/~1/g, '/').replace(/~0/g, '~'));
+
+      const ensureContainer = (root, parts) => {
+        let target = root;
+        parts.forEach((part, index) => {
+          if (!target[part] || typeof target[part] !== 'object') {
+            target[part] = /^\d+$/.test(parts[index + 1] || '') ? [] : {};
+          }
+          target = target[part];
+        });
+        return target;
+      };
+
+      const applyPatchForDisplay = (root, patch) => {
+        const parts = pointerParts(patch.path);
+        if (!parts.length) return;
+        const key = parts[parts.length - 1];
+        const parent = ensureContainer(root, parts.slice(0, -1));
+        if (patch.op === 'remove') {
+          if (Array.isArray(parent)) parent.splice(Number(key), 1);
+          else delete parent[key];
+          return;
+        }
+        if (patch.op === 'delta') {
+          parent[key] = Number(parent[key] || 0) + Number(patch.value || 0);
+          return;
+        }
+        if (patch.op === 'insert' && Array.isArray(parent)) {
+          const index = /^\d+$/.test(key) ? Number(key) : parent.length;
+          parent.splice(index, 0, patch.value);
+          return;
+        }
+        parent[key] = patch.value;
+      };
+
+      const parseUpdateVariableData = source => {
+        const patchText = tag('JSONPatch', tag('UpdateVariable', source) || source);
+        if (!patchText) return {};
+        try {
+          const patches = JSON.parse(patchText);
+          if (!Array.isArray(patches)) return {};
+          return patches.reduce((data, patch) => {
+            if (patch && typeof patch === 'object' && patch.path) applyPatchForDisplay(data, patch);
+            return data;
+          }, {});
+        } catch (error) {
+          return {};
+        }
       };
 
       const renderAbilities = ability => {
@@ -776,6 +880,7 @@
               <div class="yh-option-title"><span>${safeText(opt.label)}</span><span class="yh-option-score">${safeText(total)}</span></div>
               <div class="yh-chip-row">
                 ${best ? '<span class="yh-chip green">系统推荐</span>' : '<span class="yh-chip">可选路径</span>'}
+                ${s.estimated === 'true' ? '<span class="yh-chip gold">系统估算</span>' : ''}
                 ${opt.condition ? `<span class="yh-chip gold">${safeText(opt.condition)}</span>` : '<span class="yh-chip">无条件</span>'}
               </div>
               <div class="yh-score-row">
@@ -814,7 +919,8 @@
       };
 
       const render = () => {
-        const data = readStatData();
+        const stat = readStatData();
+        const data = stat.data || {};
         const world = data.世界信息 || {};
         const actor = data.主角信息 || {};
         const assets = data.资产信息 || {};
@@ -840,6 +946,7 @@
           : '<p class="yh-fallback">系统正在等待第一段绑定叙事写入。</p>';
 
         document.getElementById('yh-system-log').innerHTML = [
+          ['变量来源', stat.source],
           ['资产接口', assets.现金 ? '已同步' : '等待绑定确认'],
           ['风险扫描', `风险值 ${clamp(actor.风险值, 0, 100)} / 100`],
           ['任务生成', world.当前主线 || '神豪系统绑定'],
