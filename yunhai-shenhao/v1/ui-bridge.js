@@ -1,9 +1,12 @@
-$(() => {
+(function bootYunhaiBridge() {
   const UI_URL = 'https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-shenhao/v1/index.html';
   let htmlCache = '';
+  let observer = null;
 
   const hideOldMessages = () => {
-    $('#chat > .mes').not('.last_mes').remove();
+    if (globalThis.$) {
+      $('#chat > .mes').not('.last_mes').remove();
+    }
   };
 
   const loadHtml = async () => {
@@ -14,6 +17,15 @@ $(() => {
     return htmlCache;
   };
 
+  const runInsertedScripts = root => {
+    root.querySelectorAll('script').forEach(oldScript => {
+      const script = document.createElement('script');
+      for (const attr of oldScript.attributes) script.setAttribute(attr.name, attr.value);
+      script.textContent = oldScript.textContent;
+      oldScript.replaceWith(script);
+    });
+  };
+
   const mountUi = async () => {
     const roots = document.querySelectorAll('[data-yh-ui-root]:not([data-yh-mounted])');
     if (!roots.length) return;
@@ -22,6 +34,7 @@ $(() => {
       const html = await loadHtml();
       roots.forEach(root => {
         root.innerHTML = html;
+        runInsertedScripts(root);
         root.dataset.yhMounted = 'true';
       });
     } catch (error) {
@@ -40,22 +53,37 @@ $(() => {
     mountUi();
   };
 
-  refresh();
-  setTimeout(refresh, 300);
-  setTimeout(refresh, 1200);
+  const startObserver = () => {
+    if (observer) return;
+    observer = new MutationObserver(() => refresh());
+    observer.observe(document.body, { childList: true, subtree: true });
+  };
 
-  let currentChatId = SillyTavern.getCurrentChatId?.();
-  eventOn?.(tavern_events.CHAT_CHANGED, chatId => {
-    if (currentChatId !== chatId) {
-      currentChatId = chatId;
-      htmlCache = '';
-      reloadIframe?.();
+  const start = () => {
+    refresh();
+    startObserver();
+    [300, 900, 1800, 3200, 5000].forEach(ms => setTimeout(refresh, ms));
+
+    let currentChatId = globalThis.SillyTavern?.getCurrentChatId?.();
+    globalThis.eventOn?.(globalThis.tavern_events?.CHAT_CHANGED, chatId => {
+      if (currentChatId !== chatId) {
+        currentChatId = chatId;
+        htmlCache = '';
+        globalThis.reloadIframe?.();
+        setTimeout(refresh, 100);
+        setTimeout(refresh, 900);
+      }
+    });
+
+    globalThis.eventOn?.(globalThis.tavern_events?.MESSAGE_RECEIVED, () => {
       setTimeout(refresh, 100);
-    }
-  });
+      setTimeout(refresh, 900);
+    });
+  };
 
-  eventOn?.(tavern_events.MESSAGE_RECEIVED, () => {
-    setTimeout(refresh, 100);
-    setTimeout(refresh, 900);
-  });
-});
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else {
+    start();
+  }
+})();
