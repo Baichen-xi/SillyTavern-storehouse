@@ -555,7 +555,8 @@
 
     .yh-heroine-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(128px, 168px));
+      justify-content: center;
       gap: 10px;
     }
 
@@ -572,7 +573,7 @@
     .yh-heroine-image {
       display: block;
       width: 100%;
-      aspect-ratio: 2 / 3;
+      aspect-ratio: 9 / 16;
       object-fit: cover;
       background: rgba(0, 0, 0, 0.32);
     }
@@ -734,7 +735,7 @@
       .yh-options,
       .yh-relations,
       .yh-heroine-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(128px, 168px));
       }
 
       .yh-story-header,
@@ -757,7 +758,8 @@
       .yh-options,
       .yh-relations,
       .yh-heroine-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(128px, 168px);
+        justify-content: center;
       }
 
       .yh-clock {
