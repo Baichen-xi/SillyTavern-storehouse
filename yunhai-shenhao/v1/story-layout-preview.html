@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>云海神豪系统 v1.6 剧情独立渲染预览</title>
+  <style>
+    :root {
+      --bg: #03080b;
+      --panel: rgba(5, 13, 18, 0.94);
+      --panel-soft: rgba(10, 26, 34, 0.88);
+      --line: rgba(83, 214, 255, 0.34);
+      --line-soft: rgba(83, 214, 255, 0.16);
+      --cyan: #58dcff;
+      --cyan-soft: #baf2ff;
+      --gold: #d9b45d;
+      --gold-soft: #f3dc98;
+      --green: #6af0a6;
+      --red: #ff7169;
+      --text: #edfaff;
+      --muted: #91aeba;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+      background:
+        linear-gradient(rgba(83, 214, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(83, 214, 255, 0.045) 1px, transparent 1px),
+        radial-gradient(circle at 14% 0%, rgba(83, 214, 255, 0.16), transparent 32%),
+        linear-gradient(135deg, #020506 0%, #07131a 52%, #030607 100%);
+      background-size: 28px 28px, 28px 28px, auto, auto;
+    }
+
+    .preview-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .osbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.42);
+      box-shadow: 0 18px 54px rgba(0, 0, 0, 0.4), inset 0 0 28px rgba(83, 214, 255, 0.04);
+    }
+
+    .brand strong {
+      display: block;
+      color: var(--cyan-soft);
+      font-size: 24px;
+      line-height: 1.2;
+      font-weight: 800;
+      text-shadow: 0 0 18px rgba(83, 214, 255, 0.42);
+    }
+
+    .brand span,
+    .clock,
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 6px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green);
+    }
+
+    .system-zone {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(330px, 0.9fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .panel {
+      position: relative;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 14px;
+      box-shadow: inset 0 0 24px rgba(83, 214, 255, 0.035);
+    }
+
+    .panel h3,
+    .story-header h2,
+    .option-title {
+      margin: 0;
+      color: var(--cyan-soft);
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .panel h3 {
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .scan-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      min-height: 82px;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      background: var(--panel-soft);
+      padding: 10px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .radar-row {
+      display: grid;
+      grid-template-columns: 156px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .radar {
+      width: 156px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(83, 214, 255, 0.5);
+      background:
+        radial-gradient(circle, transparent 0 23%, rgba(83, 214, 255, 0.12) 24% 25%, transparent 26% 49%, rgba(83, 214, 255, 0.12) 50% 51%, transparent 52%),
+        conic-gradient(from 24deg, rgba(83, 214, 255, 0.48), rgba(83, 214, 255, 0.03) 38%, transparent 39%),
+        rgba(0, 0, 0, 0.3);
+      box-shadow: inset 0 0 30px rgba(83, 214, 255, 0.18), 0 0 18px rgba(83, 214, 255, 0.12);
+    }
+
+    .lineitem {
+      border-top: 1px solid rgba(83, 214, 255, 0.12);
+      padding-top: 9px;
+      margin-top: 9px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .ability-row,
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .ability {
+      flex: 1 1 120px;
+      min-width: 0;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      padding: 9px;
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .ability span {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .bar {
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      overflow: hidden;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--gold-soft));
+    }
+
+    .log {
+      display: grid;
+      gap: 9px;
+      font-size: 13px;
+    }
+
+    .log-line {
+      border-left: 2px solid var(--line);
+      padding-left: 8px;
+      color: var(--muted);
+    }
+
+    .log-line strong {
+      color: var(--cyan-soft);
+      margin-right: 6px;
+    }
+
+    .story-zone {
+      margin-top: 14px;
+      border: 1px solid rgba(217, 180, 93, 0.38);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(217, 180, 93, 0.1), transparent 150px),
+        linear-gradient(90deg, rgba(83, 214, 255, 0.035), transparent 18%, transparent 82%, rgba(217, 180, 93, 0.035)),
+        rgba(6, 8, 10, 0.94);
+      box-shadow: 0 18px 54px rgba(0, 0, 0, 0.38), inset 0 0 34px rgba(217, 180, 93, 0.035);
+      overflow: hidden;
+    }
+
+    .story-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(217, 180, 93, 0.24);
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .story-header h2 {
+      font-size: 17px;
+      color: var(--gold-soft);
+    }
+
+    .story-kicker {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .story-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .story-body {
+      position: relative;
+      padding: 24px clamp(18px, 3vw, 34px) 26px;
+      color: #f6f0df;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Serif SC", serif;
+      font-size: 16px;
+      line-height: 2;
+      background:
+        linear-gradient(90deg, rgba(217, 180, 93, 0.16) 0 1px, transparent 1px 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 88px);
+      background-size: 100% 100%, auto;
+    }
+
+    .story-body p {
+      margin: 0 0 14px;
+      text-indent: 2em;
+    }
+
+    .story-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .story-lead {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(217, 180, 93, 0.16);
+    }
+
+    .story-lead strong {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 22px;
+      line-height: 1.35;
+      font-weight: 800;
+      text-indent: 0;
+    }
+
+    .story-lead span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .story-system-line {
+      margin: 18px 0;
+      border: 1px solid rgba(83, 214, 255, 0.26);
+      border-radius: 7px;
+      background: rgba(4, 18, 24, 0.72);
+      padding: 11px 12px;
+      color: var(--cyan-soft);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      font-size: 13px;
+      line-height: 1.7;
+      text-indent: 0;
+      box-shadow: inset 0 0 18px rgba(83, 214, 255, 0.04);
+    }
+
+    .story-system-line b {
+      color: var(--green);
+      margin-right: 8px;
+    }
+
+    .story-quote {
+      margin: 18px 0 16px;
+      padding: 0 0 0 14px;
+      border-left: 2px solid rgba(217, 180, 93, 0.72);
+      color: #fff5d7;
+      font-size: 17px;
+      line-height: 1.9;
+      text-indent: 0;
+    }
+
+    .story-ending {
+      margin-top: 16px;
+      color: var(--gold-soft);
+      font-weight: 700;
+    }
+
+    .option-zone {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .option {
+      min-height: 154px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: rgba(5, 13, 18, 0.96);
+      color: var(--text);
+      padding: 12px;
+      text-align: left;
+      font: inherit;
+    }
+
+    .option.best {
+      border-color: rgba(106, 240, 166, 0.72);
+      box-shadow: 0 0 0 1px rgba(106, 240, 166, 0.16), inset 0 0 22px rgba(106, 240, 166, 0.05);
+    }
+
+    .option-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 14px;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .option-score {
+      color: var(--gold-soft);
+      white-space: nowrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      padding: 3px 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .chip.gold { color: var(--gold-soft); border-color: rgba(217, 180, 93, 0.42); }
+    .chip.green { color: var(--green); border-color: rgba(106, 240, 166, 0.42); }
+    .chip.red { color: var(--red); border-color: rgba(255, 113, 105, 0.42); }
+
+    @media (max-width: 900px) {
+      .system-zone,
+      .story-header {
+        grid-template-columns: 1fr;
+      }
+
+      .scan-grid,
+      .option-zone {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .preview-shell { padding: 10px; }
+      .osbar,
+      .radar-row,
+      .scan-grid,
+      .option-zone {
+        grid-template-columns: 1fr;
+      }
+
+      .radar {
+        width: min(156px, 70vw);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="preview-shell">
+    <header class="osbar">
+      <div class="brand">
+        <strong>云海神豪系统 OS</strong>
+        <span><i class="dot"></i>CAPITAL ENGINE ONLINE · RISK SCAN · RELATION RESOURCE MAP</span>
+      </div>
+      <div class="clock">2026-05-16 · 20:20 · 微雨</div>
+    </header>
+
+    <section class="system-zone" aria-label="系统终端区">
+      <div>
+        <div class="panel">
+          <h3>资产扫描 / CAPITAL SCAN</h3>
+          <div class="scan-grid">
+            <div class="metric"><span>现金流动性</span><strong>¥5000.0万</strong></div>
+            <div class="metric"><span>总资产估值</span><strong>¥5000.0万</strong></div>
+            <div class="metric"><span>城市声望</span><strong>10 / 100</strong></div>
+            <div class="metric"><span>暴露风险</span><strong>5 / 100</strong></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px">
+          <h3>任务雷达 / MISSION RADAR</h3>
+          <div class="radar-row">
+            <div class="radar" aria-hidden="true"></div>
+            <div>
+              <div class="muted">当前地点</div>
+              <strong>云海市CBD · 金融晚宴入场前</strong>
+              <div class="lineitem"><span class="muted">当前主线</span><br>神豪系统绑定与金融晚宴</div>
+              <div class="lineitem"><span class="muted">当前行动</span><br>等待玩家选择｜目标：确认系统能力边界</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px">
+          <h3>能力评估 / ABILITY MATRIX</h3>
+          <div class="ability-row">
+            <div class="ability"><span><b>资本</b><b>20</b></span><div class="bar"><i style="width:20%"></i></div></div>
+            <div class="ability"><span><b>魅力</b><b>18</b></span><div class="bar"><i style="width:18%"></i></div></div>
+            <div class="ability"><span><b>权势</b><b>12</b></span><div class="bar"><i style="width:12%"></i></div></div>
+            <div class="ability"><span><b>洞察</b><b>16</b></span><div class="bar"><i style="width:16%"></i></div></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h3>系统日志 / SYS LOG</h3>
+        <div class="log">
+          <div class="log-line"><strong>变量来源</strong> 当前回复兜底</div>
+          <div class="log-line"><strong>资产接口</strong> 已同步</div>
+          <div class="log-line"><strong>风险扫描</strong> 风险值 5 / 100</div>
+          <div class="log-line"><strong>任务生成</strong> 神豪系统绑定与金融晚宴</div>
+          <div class="log-line"><strong>关系资源</strong> 5 个候选节点</div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="story-zone" aria-label="独立剧情区">
+      <div class="story-header">
+        <div>
+          <span class="story-kicker">STORY FEED · MAIN TEXT RENDER</span>
+          <h2>第一章：雨夜绑定</h2>
+        </div>
+        <div class="story-meta">
+          <span class="chip gold">正文独立渲染</span>
+          <span class="chip">云海市CBD</span>
+          <span class="chip">20:20</span>
+        </div>
+      </div>
+      <div class="story-body">
+        <div class="story-lead">
+          <strong>雨声压低了整座城市的呼吸。</strong>
+          <span>这一区域只负责渲染 <code>&lt;maintext&gt;</code>，不再混入资产、任务、变量日志等系统面板内容。</span>
+        </div>
+        <p>雨水沿着手机边缘滑下，却在黑金终端的投影边界前碎成细小的光点。你站在云海市CBD的路口，第一次意识到这套系统不是一张简单的余额通知，而是一整座城市向你打开的权限界面。</p>
+        <p>远处，云海之巅酒店顶层的灯光亮得像一枚悬在夜色里的筹码。车流从高架桥下穿过，红色尾灯在积水里拉成长线，像有人把这座城市的血管铺在你脚边。</p>
+        <div class="story-system-line"><b>SYSTEM</b>资金可以让你进入晚宴，判断才能决定你以什么姿态留下。</div>
+        <p>你低头看向邮箱，一封没有发件人的电子邀请函静静躺在最上方。抬头是云海金融晚宴，地点是云海之巅酒店顶层，名单角落里，沈清璃三个字被系统用冷白色框线标出。</p>
+        <div class="story-quote">她不是奖励，也不是道具，而是这场资本游戏里第一个会审视你履约能力的人。</div>
+        <p class="story-ending">系统终端没有再催促，只把四条行动建议推到你眼前，像把第一枚筹码递到了你的指尖。</p>
+      </div>
+    </section>
+
+    <section class="option-zone" aria-label="行动选项区">
+      <button class="option best">
+        <div class="option-title"><span>立刻前往云海金融晚宴，接触沈清璃并确认酒店项目。</span><span class="option-score">+8</span></div>
+        <div class="chip-row"><span class="chip green">系统推荐</span><span class="chip gold">魅力</span><span class="chip red">风险 +2</span><span class="chip">关系 沈清璃+3</span></div>
+      </button>
+      <button class="option">
+        <div class="option-title"><span>留在原地核验银行短信和托管账户，先确认资金来源。</span><span class="option-score">+5</span></div>
+        <div class="chip-row"><span class="chip">可选路径</span><span class="chip gold">洞察</span><span class="chip green">风险 -2</span><span class="chip">关系 无</span></div>
+      </button>
+      <button class="option">
+        <div class="option-title"><span>联系临时造型与司机服务，准备一套能进入晚宴的行头。</span><span class="option-score">+6</span></div>
+        <div class="chip-row"><span class="chip">可选路径</span><span class="chip gold">资本</span><span class="chip red">风险 +1</span><span class="chip">关系 沈清璃+1</span></div>
+      </button>
+      <button class="option">
+        <div class="option-title"><span>先调查云海之巅酒店债务结构，判断晚宴是否是陷阱。</span><span class="option-score">+7</span></div>
+        <div class="chip-row"><span class="chip">可选路径</span><span class="chip gold">洞察</span><span class="chip green">风险 -1</span><span class="chip">关系 沈清璃+1</span></div>
+      </button>
+    </section>
+  </main>
+</body>
+</html>

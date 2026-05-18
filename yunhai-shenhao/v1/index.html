@@ -460,6 +460,246 @@
       overflow: auto;
     }
 
+    .yh-stage {
+      position: relative;
+      z-index: 1;
+      padding: 14px;
+    }
+
+    .yh-stage-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .yh-stage-title {
+      color: var(--yh-cyan-soft);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .yh-kicker {
+      color: var(--yh-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .yh-stage-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .yh-icon-btn {
+      width: 34px;
+      height: 30px;
+      border: 1px solid var(--yh-line);
+      border-radius: 7px;
+      color: var(--yh-cyan-soft);
+      background: rgba(0, 0, 0, 0.28);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .yh-page-dot {
+      width: 8px;
+      height: 8px;
+      border: 0;
+      border-radius: 99px;
+      padding: 0;
+      background: rgba(142, 169, 180, 0.45);
+      cursor: pointer;
+    }
+
+    .yh-page-dot.active {
+      width: 22px;
+      background: var(--yh-gold-soft);
+      box-shadow: 0 0 12px rgba(240, 217, 149, 0.48);
+    }
+
+    .yh-page-viewport {
+      overflow: hidden;
+      border: 1px solid var(--yh-line);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .yh-page-track {
+      display: flex;
+      width: 200%;
+      transition: transform 260ms ease;
+    }
+
+    .yh-page {
+      flex: 0 0 50%;
+      width: 50%;
+      padding: 14px;
+    }
+
+    .yh-heroine-page {
+      display: grid;
+      gap: 12px;
+    }
+
+    .yh-heroine-intro {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: end;
+      border-bottom: 1px solid rgba(86, 217, 255, 0.16);
+      padding-bottom: 10px;
+    }
+
+    .yh-heroine-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .yh-heroine-card {
+      min-width: 0;
+      border: 1px solid rgba(86, 217, 255, 0.22);
+      border-radius: 8px;
+      background: rgba(4, 12, 16, 0.9);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .yh-heroine-image {
+      display: block;
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      background: rgba(0, 0, 0, 0.32);
+    }
+
+    .yh-heroine-body {
+      padding: 10px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .yh-heroine-name {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    .yh-heroine-name strong {
+      color: var(--yh-gold-soft);
+      font-size: 15px;
+    }
+
+    .yh-heroine-name small,
+    .yh-heroine-desc,
+    .yh-heroine-detail {
+      color: var(--yh-muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .yh-heroine-detail b {
+      color: var(--yh-cyan-soft);
+    }
+
+    .yh-story-zone {
+      position: relative;
+      z-index: 1;
+      margin: 0 14px 14px;
+      border: 1px solid rgba(216, 179, 90, 0.38);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(216, 179, 90, 0.1), transparent 150px),
+        linear-gradient(90deg, rgba(86, 217, 255, 0.035), transparent 18%, transparent 82%, rgba(216, 179, 90, 0.035)),
+        rgba(6, 8, 10, 0.94);
+      box-shadow: 0 18px 54px rgba(0, 0, 0, 0.38), inset 0 0 34px rgba(216, 179, 90, 0.035);
+      overflow: hidden;
+    }
+
+    .yh-story-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(216, 179, 90, 0.24);
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .yh-story-header h2 {
+      margin: 0;
+      color: var(--yh-gold-soft);
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .yh-story-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .yh-story {
+      max-height: 520px;
+      padding: 24px clamp(18px, 3vw, 34px) 26px;
+      color: #f6f0df;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Serif SC", serif;
+      font-size: 16px;
+      line-height: 2;
+      background:
+        linear-gradient(90deg, rgba(216, 179, 90, 0.16) 0 1px, transparent 1px 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 88px);
+    }
+
+    .yh-story p {
+      margin: 0 0 14px;
+      text-indent: 2em;
+    }
+
+    .yh-story-lead {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(216, 179, 90, 0.16);
+    }
+
+    .yh-story-lead strong {
+      display: block;
+      color: var(--yh-gold-soft);
+      font-size: 22px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .yh-story-lead span {
+      display: block;
+      margin-top: 6px;
+      color: var(--yh-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .yh-story-system-line {
+      margin: 18px 0;
+      border: 1px solid rgba(86, 217, 255, 0.26);
+      border-radius: 7px;
+      background: rgba(4, 18, 24, 0.72);
+      padding: 11px 12px;
+      color: var(--yh-cyan-soft);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .yh-story-system-line b {
+      color: var(--yh-green);
+      margin-right: 8px;
+    }
+
     .yh-toast {
       position: fixed;
       right: 18px;
@@ -492,18 +732,31 @@
       .yh-scan-grid,
       .yh-ability-grid,
       .yh-options,
-      .yh-relations {
+      .yh-relations,
+      .yh-heroine-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .yh-story-header,
+      .yh-heroine-intro {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .yh-story-meta {
+        justify-content: flex-start;
       }
     }
 
     @media (max-width: 560px) {
       .yh-osbar,
+      .yh-stage-head,
       .yh-radar,
       .yh-scan-grid,
       .yh-ability-grid,
       .yh-options,
-      .yh-relations {
+      .yh-relations,
+      .yh-heroine-grid {
         grid-template-columns: 1fr;
       }
 
@@ -527,64 +780,94 @@
     <div class="yh-clock" id="yh-clock">SYNCING...</div>
   </div>
 
-  <div class="yh-terminal">
-    <div class="yh-hud-main">
-      <div class="yh-panel">
-        <h3>资产扫描 / CAPITAL SCAN</h3>
-        <div class="yh-scan-grid">
-          <div class="yh-metric"><span>现金流动性</span><strong id="yh-cash">--</strong></div>
-          <div class="yh-metric"><span>总资产估值</span><strong id="yh-assets">--</strong></div>
-          <div class="yh-metric"><span>城市声望</span><strong id="yh-reputation">--</strong></div>
-          <div class="yh-metric"><span>暴露风险</span><strong id="yh-risk">--</strong></div>
-        </div>
+  <section class="yh-stage" aria-label="系统翻页演示">
+    <div class="yh-stage-head">
+      <div>
+        <div class="yh-kicker">SYSTEM DECK · SLIDE INTERFACE</div>
+        <div class="yh-stage-title" id="yh-stage-title">系统终端 / CAPITAL HUD</div>
       </div>
+      <div class="yh-stage-controls">
+        <button class="yh-icon-btn" type="button" data-yh-prev title="上一页">‹</button>
+        <button class="yh-page-dot active" type="button" data-yh-page="0" title="系统终端"></button>
+        <button class="yh-page-dot" type="button" data-yh-page="1" title="女主档案"></button>
+        <button class="yh-icon-btn" type="button" data-yh-next title="下一页">›</button>
+      </div>
+    </div>
 
-      <div class="yh-panel">
-        <h3>任务雷达 / MISSION RADAR</h3>
-        <div class="yh-radar">
-          <div class="yh-radar-disc"></div>
-          <div class="yh-radar-data">
-            <div class="yh-lineitem"><span class="yh-muted">当前地点</span><br><span id="yh-location">云海市CBD</span></div>
-            <div class="yh-lineitem"><span class="yh-muted">当前主线</span><br><span id="yh-mainline">黑金名利场开局</span></div>
-            <div class="yh-lineitem" id="yh-action">当前行动：等待玩家选择</div>
+    <div class="yh-page-viewport">
+      <div class="yh-page-track" id="yh-page-track">
+        <div class="yh-page">
+          <div class="yh-terminal">
+            <div class="yh-hud-main">
+              <div class="yh-panel">
+                <h3>资产扫描 / CAPITAL SCAN</h3>
+                <div class="yh-scan-grid">
+                  <div class="yh-metric"><span>现金流动性</span><strong id="yh-cash">--</strong></div>
+                  <div class="yh-metric"><span>总资产估值</span><strong id="yh-assets">--</strong></div>
+                  <div class="yh-metric"><span>城市声望</span><strong id="yh-reputation">--</strong></div>
+                  <div class="yh-metric"><span>暴露风险</span><strong id="yh-risk">--</strong></div>
+                </div>
+              </div>
+
+              <div class="yh-panel">
+                <h3>任务雷达 / MISSION RADAR</h3>
+                <div class="yh-radar">
+                  <div class="yh-radar-disc"></div>
+                  <div class="yh-radar-data">
+                    <div class="yh-lineitem"><span class="yh-muted">当前地点</span><br><span id="yh-location">云海市CBD</span></div>
+                    <div class="yh-lineitem"><span class="yh-muted">当前主线</span><br><span id="yh-mainline">黑金名利场开局</span></div>
+                    <div class="yh-lineitem" id="yh-action">当前行动：等待玩家选择</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="yh-panel">
+                <h3>能力评估 / ABILITY MATRIX</h3>
+                <div class="yh-ability-grid" id="yh-abilities"></div>
+              </div>
+            </div>
+
+            <div class="yh-side">
+              <div class="yh-panel">
+                <h3>系统日志 / SYS LOG</h3>
+                <div class="yh-log" id="yh-system-log"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="yh-page">
+          <div class="yh-heroine-page">
+            <div class="yh-heroine-intro">
+              <div>
+                <div class="yh-kicker">RELATION RESOURCE ARCHIVE</div>
+                <div class="yh-stage-title">女主关系档案 / HEROINE DOSSIERS</div>
+              </div>
+              <span class="yh-chip gold">图片资产已接入</span>
+            </div>
+            <div class="yh-heroine-grid" id="yh-heroine-grid"></div>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="yh-panel">
-        <h3>能力评估 / ABILITY MATRIX</h3>
-        <div class="yh-ability-grid" id="yh-abilities"></div>
+  <section class="yh-story-zone" aria-label="独立剧情区">
+    <div class="yh-story-header">
+      <div>
+        <span class="yh-kicker">STORY FEED · MAIN TEXT RENDER</span>
+        <h2 id="yh-story-title">本轮剧情</h2>
       </div>
+      <div class="yh-story-meta" id="yh-story-meta"></div>
     </div>
+    <div class="yh-story" id="yh-story">
+      <p class="yh-fallback">系统正在等待下一段叙事写入。</p>
+    </div>
+  </section>
 
-    <div class="yh-side">
-      <div class="yh-panel">
-        <h3>系统日志 / SYS LOG</h3>
-        <div class="yh-log" id="yh-system-log"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="yh-narrative-row">
-    <div class="yh-panel">
-      <h3>本轮剧情 / NARRATIVE</h3>
-      <div class="yh-story" id="yh-story">
-        <p class="yh-fallback">系统正在等待下一次叙事写入。</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="yh-support">
-    <div class="yh-panel">
-      <h3>系统行动建议 / ACTION FORECAST</h3>
-      <div class="yh-options" id="yh-options"></div>
-    </div>
-
-    <div class="yh-panel">
-      <h3>关系资源库 / RELATION ASSETS</h3>
-      <div class="yh-relations" id="yh-relations"></div>
-    </div>
-  </div>
+  <section class="yh-narrative-row" aria-label="行动选项区">
+    <div class="yh-options" id="yh-options"></div>
+  </section>
 
   <div class="yh-support">
     <div class="yh-panel">
@@ -604,12 +887,22 @@
     (() => {
       const $root = document.getElementById('yunhai-shenhao-app');
       const HEROINE_BASE = [
-        { name: '沈清璃', identity: '投行合伙人', stage: '审视中的商业对象', like: 0, trust: 0, alert: 35, resource: '投行/并购/尽调' },
-        { name: '顾晚音', identity: '豪门继承人', stage: '传闻中的竞争者', like: 0, trust: -5, alert: 45, resource: '豪门/商会/竞价' },
-        { name: '林知夏', identity: '私人生活助理候选人', stage: '等待面试', like: 5, trust: 5, alert: 15, resource: '行程/助理/效率' },
-        { name: '苏曼青', identity: '顶流演员', stage: '镜头之外的陌生人', like: 0, trust: 0, alert: 30, resource: '传媒/代言/舆论' },
-        { name: '许明月', identity: '精英律师', stage: '专业距离', like: 0, trust: 0, alert: 30, resource: '法务/合同/危机' }
+        { name: '沈清璃', age: 28, identity: '投行合伙人', stage: '审视中的商业对象', like: 0, trust: 0, alert: 35, image: 'shen-qingli.jpg', resource: '投行资源 / 并购渠道 / 财务尽调', palette: '冷白理性 · 深金野心', drive: '证明自己不是豪门附庸，而是能定价别人的操盘手。', secret: '父亲破产案背后与云海旧豪门有关。', hook: '云海之巅酒店债务中藏着旧案线索。' },
+        { name: '顾晚音', age: 25, identity: '豪门继承人', stage: '传闻中的竞争者', like: 0, trust: -5, alert: 45, image: 'gu-wanyin.jpg', resource: '豪门网络 / 商会门票 / 竞价情报', palette: '黑金骄傲 · 酒红热烈', drive: '证明自己能继承顾氏，而不是被顾氏吞没。', secret: '顾氏内部有人希望她联姻换取资本稳定。', hook: '慈善拍卖上，她故意抬价测试主角底线。' },
+        { name: '林知夏', age: 23, identity: '私人生活助理候选人', stage: '等待面试', like: 5, trust: 5, alert: 15, image: 'lin-zhixia.jpg', resource: '行程管理 / 私人助理 / 效率增益', palette: '浅杏温柔 · 湖蓝理性', drive: '证明普通出身也能站在高端局的核心位置。', secret: '曾被前雇主要求承担不合理私人服务。', hook: '行程冲突迫使她独立挡下一场公关危机。' },
+        { name: '苏曼青', age: 26, identity: '顶流演员', stage: '镜头之外的陌生人', like: 0, trust: 0, alert: 30, image: 'su-manqing.jpg', resource: '传媒曝光 / 品牌代言 / 舆论反制', palette: '烈焰红生命力 · 银灰清醒', drive: '从被消费的明星变成能掌控作品和品牌的人。', secret: '掌握旧经纪公司操控舆论和压榨艺人的证据。', hook: '热搜突然指向主角产业与她的资本交易。' },
+        { name: '许明月', age: 29, identity: '精英律师', stage: '专业距离', like: 0, trust: 0, alert: 30, image: 'xu-mingyue.jpg', resource: '法律风控 / 合同审查 / 危机处理', palette: '月白原则 · 靛蓝洞察', drive: '让高端法律服务成为权力边界，而不是替资本擦屁股。', secret: '曾保下一位无辜客户，却因没有公开全部真相被误解。', hook: '收购合同里出现一条足以让主角负债的隐藏条款。' }
       ];
+      const RAW_ASSET_BASE = 'https://raw.githubusercontent.com/Baichen-xi/SillyTavern-storehouse/main/yunhai-shenhao/v1/assets/heroines/';
+      const LOCAL_ASSET_BASE = './assets/heroines/';
+      const assetBase = (() => {
+        try {
+          return window.location.protocol === 'file:' ? LOCAL_ASSET_BASE : RAW_ASSET_BASE;
+        } catch (error) {
+          return RAW_ASSET_BASE;
+        }
+      })();
+      const assetUrl = image => `${assetBase}${image}${assetBase === RAW_ASSET_BASE ? '?v=20260518-1' : ''}`;
 
       const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value || 0)));
       const relationPercent = value => clamp((Number(value || 0) + 100) / 2, 0, 100);
@@ -1006,22 +1299,74 @@
         });
       };
 
-      const renderRelations = relations => {
-        document.getElementById('yh-relations').innerHTML = HEROINE_BASE.map(base => {
+      const renderHeroineDossiers = relations => {
+        document.getElementById('yh-heroine-grid').innerHTML = HEROINE_BASE.map(base => {
           const r = relations?.[base.name] || {};
           const like = Number(r.好感 ?? base.like);
           const trust = Number(r.信任 ?? base.trust);
           const alert = Number(r.警惕 ?? base.alert);
-          return `<article class="yh-profile-card">
-            <strong>${safeText(base.name)}</strong>
-            <small>${safeText(r.关系阶段 || base.stage)}</small>
-            <div class="yh-muted">${safeText(r.身份 || base.identity)}</div>
-            <div class="yh-muted">${safeText(base.resource)}</div>
+          return `<article class="yh-heroine-card">
+            <img class="yh-heroine-image" src="${safeText(assetUrl(base.image))}" alt="${safeText(base.name)}">
+            <div class="yh-heroine-body">
+              <div class="yh-heroine-name"><strong>${safeText(base.name)}</strong><small>${safeText(base.age)}岁</small></div>
+              <div class="yh-heroine-desc">${safeText(r.身份 || base.identity)} · ${safeText(r.关系阶段 || base.stage)}</div>
+              <div class="yh-heroine-detail"><b>资源</b> ${safeText(base.resource)}</div>
+              <div class="yh-heroine-detail"><b>色盘</b> ${safeText(base.palette)}</div>
+              <div class="yh-heroine-detail"><b>驱动</b> ${safeText(base.drive)}</div>
+              <div class="yh-heroine-detail"><b>秘密</b> ${safeText(base.secret)}</div>
+              <div class="yh-heroine-detail"><b>钩子</b> ${safeText(base.hook)}</div>
+              <div class="yh-heroine-detail"><b>当前态度</b> ${safeText(r.当前态度 || '观察')}</div>
+            </div>
             <div class="yh-bar" title="好感"><i style="width:${relationPercent(like)}%"></i></div>
             <div class="yh-bar" title="信任"><i style="width:${relationPercent(trust)}%"></i></div>
             <div class="yh-bar" title="警惕"><i style="width:${relationPercent(alert)}%"></i></div>
           </article>`;
         }).join('');
+      };
+
+      const renderStory = (story, world) => {
+        document.getElementById('yh-story-title').textContent = world.当前主线 || '本轮剧情';
+        document.getElementById('yh-story-meta').innerHTML = [
+          '<span class="yh-chip gold">正文独立渲染</span>',
+          `<span class="yh-chip">${safeText(world.当前地点 || '云海市CBD')}</span>`,
+          `<span class="yh-chip">${safeText(world.当前时间 || '20:00')}</span>`
+        ].join('');
+
+        const storyRoot = document.getElementById('yh-story');
+        if (!story) {
+          storyRoot.innerHTML = '<p class="yh-fallback">系统正在等待下一段叙事写入。</p>';
+          return;
+        }
+
+        const blocks = String(story).split(/\n\s*\n+/).map(x => x.trim()).filter(Boolean);
+        const lead = blocks.shift() || '';
+        const leadLines = lead.split(/\n+/);
+        const leadTitle = leadLines.shift() || world.当前主线 || '本轮剧情';
+        const leadRest = leadLines.join('\n').trim();
+        const body = blocks.map(block => {
+          const isSystemLine = /^【.*】/.test(block) || /系统/.test(block.slice(0, 18));
+          if (isSystemLine) return `<div class="yh-story-system-line"><b>SYSTEM</b>${safeText(block).replace(/\n/g, '<br>')}</div>`;
+          return `<p>${safeText(block).replace(/\n/g, '<br>')}</p>`;
+        }).join('');
+
+        storyRoot.innerHTML = `<div class="yh-story-lead"><strong>${safeText(leadTitle)}</strong><span>${safeText(world.当前地点 || '云海市CBD')} · ${safeText(world.天气 || '微雨')} · ${safeText(world.当前时间 || '20:00')}</span></div>${leadRest ? `<p>${safeText(leadRest).replace(/\n/g, '<br>')}</p>` : ''}${body}`;
+      };
+
+      const setupPager = () => {
+        let page = 0;
+        const title = document.getElementById('yh-stage-title');
+        const track = document.getElementById('yh-page-track');
+        const dots = [...document.querySelectorAll('.yh-page-dot')];
+        const setPage = next => {
+          page = (next + 2) % 2;
+          track.style.transform = `translateX(-${page * 50}%)`;
+          dots.forEach((dot, index) => dot.classList.toggle('active', index === page));
+          title.textContent = page === 0 ? '系统终端 / CAPITAL HUD' : '女主关系档案 / HEROINE DOSSIERS';
+        };
+        document.querySelector('[data-yh-prev]')?.addEventListener('click', () => setPage(page - 1));
+        document.querySelector('[data-yh-next]')?.addEventListener('click', () => setPage(page + 1));
+        dots.forEach(dot => dot.addEventListener('click', () => setPage(Number(dot.dataset.yhPage || 0))));
+        setPage(0);
       };
 
       const render = () => {
@@ -1047,10 +1392,6 @@
         document.getElementById('yh-location').textContent = action.当前位置 || world.当前地点 || '云海市CBD';
         document.getElementById('yh-mainline').textContent = world.当前主线 || '神豪系统绑定';
         document.getElementById('yh-action').textContent = `当前行动：${action.当前行为 || '等待玩家选择'}｜目标：${action.当前目标 || '确认系统能力边界'}`;
-        document.getElementById('yh-story').innerHTML = story
-          ? `<p>${safeText(story).replace(/\n/g, '<br>')}</p>`
-          : '<p class="yh-fallback">系统正在等待第一段绑定叙事写入。</p>';
-
         document.getElementById('yh-system-log').innerHTML = [
           ['变量来源', stat.source],
           ['资产接口', assets.现金 ? '已同步' : '等待绑定确认'],
@@ -1061,7 +1402,8 @@
 
         renderAbilities(ability);
         renderOptions(options);
-        renderRelations(relations);
+        renderHeroineDossiers(relations);
+        renderStory(story, world);
 
         const industryEntries = Object.entries(industries);
         document.getElementById('yh-industries').innerHTML = industryEntries.length
@@ -1073,6 +1415,7 @@
           : '<div class="yh-fallback">暂无事件写入。系统会在关键选择后记录资产、关系或风险变化。</div>';
       };
 
+      setupPager();
       render();
       setTimeout(render, 500);
       setTimeout(render, 1500);
